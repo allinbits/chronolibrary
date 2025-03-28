@@ -4,8 +4,12 @@ on:
   workflow_dispatch:
     inputs:
       package:
-        description: "Package name to publish (e.g., temporastate)"
+        description: "Package name to publish"
         required: true
+        type: choice
+        options:
+          - temporastate
+          - temporaconstructor
 
 jobs:
   publish:
