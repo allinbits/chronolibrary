@@ -1,6 +1,6 @@
 # TemporaLib
 
-Contains all repositories that have to do with working with event sourcing.
+Contains all repositories that have to do with working with Tempora event sourcing.
 
 - [TemporaState](./packages/temporastate/README.md)
   - A small indexer that reads the cosmos bank module transfers and parses the relevant information for every transaction. 

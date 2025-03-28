@@ -2,3 +2,4 @@ node_modules
 packages/temporadocs/docs/.vitepress/dist
 packages/temporadocs/docs/.vitepress/cache
 packages/temporasync/data
+dist/
