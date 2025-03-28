@@ -5,7 +5,7 @@ An web compatible action parsing library to bind prefix data to functions to rec
 ## Install
 
 ```sh
-pnpm i @allinbits/temporaconstructor
+pnpm i @atomone/temporaconstructor
 ```
 
 ## Usage

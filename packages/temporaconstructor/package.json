@@ -1,6 +1,6 @@
 {
     "name": "@atomone/temporaconstructor",
-    "version": "0.0.2",
+    "version": "0.0.3",
     "description": "TemporaConstructor is an event sourcing action mapper and parser.",
     "main": "dist/index.js",
     "types": "dist/index.d.ts",
