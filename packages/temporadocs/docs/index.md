@@ -3,23 +3,22 @@
 layout: home
 
 hero:
-  name: "TemporaDocs"
-  text: "TemporaDocs"
-  tagline: My great project tagline
+  name: "Tempora Library"
+  tagline: "Reconstructable State Applications on AtomOne"
   actions:
-    - theme: brand
-      text: Markdown Examples
-      link: /markdown-examples
     - theme: alt
-      text: API Examples
-      link: /api-examples
+      text: "Getting Started"
+      link: /getting-started
 
 features:
-  - title: Feature A
-    details: Lorem ipsum dolor sit amet, consectetur adipiscing elit
-  - title: Feature B
-    details: Lorem ipsum dolor sit amet, consectetur adipiscing elit
-  - title: Feature C
-    details: Lorem ipsum dolor sit amet, consectetur adipiscing elit
+  - title: "Tempora Sync &#8599;"
+    details: "TemporaSync is a service that provides REST endpoints to query memos as they are processed from blockchain events.<br /><br /><br /> Powered by TemporaState"
+    link: "/temporasync"
+  - title: "Tempora State &#8599;"
+    details: "TemporaState is a library designed to reconstruct past states and validate present actions in applications by leveraging event sourcing. <br /><br /> Powered by Docker & NodeJS"
+    link: "/temporastate"
+  - title: "Tempora Constructor &#8599;"
+    details: "An web compatible action parsing library to bind prefix data to functions to reconstruct state on client-side."
+    link: "/temporaconstructor"
 ---
 

@@ -3,8 +3,8 @@ import { generateSidebar } from "./utility/sidebar";
 
 // https://vitepress.dev/reference/site-config
 export default defineConfig({
-  title: "TemporaLib",
-  description: "TemporaLib",
+  title: "Tempora Library",
+  description: "Reconstructable State Applications on Atom One",
   appearance: "force-dark",
   ignoreDeadLinks: true, // Leave this on because the inherited docs will create broken links
   cleanUrls: false,
