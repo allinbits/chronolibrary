@@ -1,0 +1,1 @@
+SELECT * FROM last_block WHERE id = ?

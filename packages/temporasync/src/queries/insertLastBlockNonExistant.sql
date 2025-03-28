@@ -1,0 +1,1 @@
+INSERT OR IGNORE INTO last_block (id, block_value) VALUES (1, ?);

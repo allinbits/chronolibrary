@@ -1,0 +1,1 @@
+SELECT * FROM actions WHERE hash = ?;
