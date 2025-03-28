@@ -3,6 +3,7 @@ import node from '@elysiajs/node';
 import { Action } from '@atomone/temporastate/dist/types';
 import { useDatabase } from './database';
 import { useConfig } from './config';
+import { cors } from '@elysiajs/cors';
 
 const config = useConfig();
 const db = useDatabase();
@@ -81,6 +82,7 @@ function getHealth() {
 }
 
 const app = new Elysia({ adapter: node() });
+app.use(cors());
 app.get('/data', getData);
 app.get('/health', getHealth);
 app.get('/last', getLastBlock);
