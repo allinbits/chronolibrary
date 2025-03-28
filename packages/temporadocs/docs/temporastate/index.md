@@ -78,9 +78,13 @@ async function parseBlocks() {
 ### Explanation of Setup
 
 1. API URLs: The API_URLS array holds the URLs to the endpoints of the blockchain nodes you are querying. These nodes provide block data that TemporaState uses to extract events.
+
 2. Memo Prefix: The MEMO_PREFIX tells TemporaState which memos to process. For example, if you are listening for forum-related events, you might set the prefix to 0xForum.
+
 3. Start Block: The START_BLOCK indicates where to start parsing blocks from. It is recommended to start from the block right after the last one processed. You can retrieve the current block height using a helper function like getCurrentBlockHeight. **Keep in mind that not all API URLs contain all block state.**
+
 4. Receiver and Sender (Optional): These fields are optional and can be used to filter events based on the recipient or sender's blockchain address.
+
 5. Logging: The LOG parameter allows you to enable logging for debugging purposes. When LOG is set to true, all parsed events are logged to the console.
 
 ### Handling Actions
