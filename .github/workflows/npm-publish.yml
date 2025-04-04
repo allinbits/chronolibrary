@@ -8,8 +8,8 @@ on:
         required: true
         type: choice
         options:
-          - temporastate
-          - temporaconstructor
+          - chronostate
+          - chronoconstructor
 
 jobs:
   publish:

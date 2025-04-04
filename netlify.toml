@@ -2,5 +2,5 @@
   NODE_VERSION = "22"
 
 [build]
-  publish = "./packages/temporadocs/docs/.vitepress/dist"
-  command = "pnpm -F ./packages/temporadocs build"
+  publish = "./packages/chronodocs/docs/.vitepress/dist"
+  command = "pnpm -F ./packages/chronodocs build"

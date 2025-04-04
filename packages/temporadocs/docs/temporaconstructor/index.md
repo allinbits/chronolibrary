@@ -1,3 +1,0 @@
-# Tempora Constructor
-
-Pending docs...

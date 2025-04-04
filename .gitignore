@@ -1,5 +1,5 @@
 node_modules
-packages/temporadocs/docs/.vitepress/dist
-packages/temporadocs/docs/.vitepress/cache
-packages/temporasync/data
+packages/chronodocs/docs/.vitepress/dist
+packages/chronodocs/docs/.vitepress/cache
+packages/chronosync/data
 dist/
