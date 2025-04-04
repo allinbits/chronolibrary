@@ -55,9 +55,6 @@ importers:
 
   packages/chronosync:
     dependencies:
-      '@atomone/temporastate':
-        specifier: ^2.0.0
-        version: 2.0.0
       '@elysiajs/cors':
         specifier: ^1.2.0
         version: 1.2.0(elysia@1.2.25(@sinclair/typebox@0.34.31)(typescript@5.8.2))
@@ -151,9 +148,6 @@ packages:
   '@algolia/requester-node-http@5.23.0':
     resolution: {integrity: sha512-XXHbq2heOZc9EFCc4z+uyHS9YRBygZbYQVsWjWZWx8hdAz+tkBX/jLHM9Xg+3zO0/v8JN6pcZzqYEVsdrLeNLg==}
     engines: {node: '>= 14.0.0'}
-
-  '@atomone/temporastate@2.0.0':
-    resolution: {integrity: sha512-xiC6Kt99kJ1922Obe5l1+fIh9g7u0tEfsKTi9UH9dWNOy3qzJBtA9Kb5lmxH8fcz/ILQPT4sYOWesKQqAmMDFw==}
 
   '@babel/helper-string-parser@7.25.9':
     resolution: {integrity: sha512-4A/SCr/2KLd5jrtOMFzaKjVtAei3+2r/NChoBNoZ3EyP/+GlhoaEGoWOZUmFmoITP7zOJyHIMm+DYRd8o3PvHA==}
@@ -1778,8 +1772,6 @@ snapshots:
   '@algolia/requester-node-http@5.23.0':
     dependencies:
       '@algolia/client-common': 5.23.0
-
-  '@atomone/temporastate@2.0.0': {}
 
   '@babel/helper-string-parser@7.25.9': {}
 
