@@ -10,6 +10,7 @@
         "build": "tsc"
     },
     "dependencies": {
+        "@atomone/chronostate": "^2.0.0",
         "@elysiajs/cors": "^1.2.0",
         "@elysiajs/node": "^1.2.6",
         "@types/node": "^22.13.10",

@@ -1,4 +1,4 @@
-import { Config } from '@atomone/temporastate/dist/types';
+import { Config } from '@atomone/chronostate/dist/types';
 
 type TemporaSyncConfig = {
 	PORT: number,

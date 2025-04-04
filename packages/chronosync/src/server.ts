@@ -1,6 +1,6 @@
 import { Elysia } from 'elysia';
 import node from '@elysiajs/node';
-import { Action } from '@atomone/temporastate/dist/types';
+import { Action } from '@atomone/chronostate/dist/types';
 import { useDatabase } from './database';
 import { useConfig } from './config';
 import { cors } from '@elysiajs/cors';

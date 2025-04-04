@@ -1,5 +1,5 @@
-import { TemporaState } from '@atomone/temporastate';
-import { Action } from '@atomone/temporastate/dist/types';
+import { ChronoState } from '@atomone/chronostate';
+import { Action } from '@atomone/chronostate/dist/types';
 
 import { useDatabase } from './database';
 import { useConfig } from './config';
@@ -7,7 +7,7 @@ import { useConfig } from './config';
 const db = useDatabase();
 const config = useConfig();
 const lastBlock = db.lastBlock.select.get(1) as { id: number; block_value: string };
-const temporaState = new TemporaState({ ...config, START_BLOCK: lastBlock.block_value });
+const state = new ChronoState({ ...config, START_BLOCK: lastBlock.block_value });
 
 let lastAction: Action | undefined;
 
@@ -40,8 +40,8 @@ function handleLastBlock(block: String) {
     console.log(`Last Block Updated: ${block}`);
 }
 
-temporaState.onLastBlock(handleLastBlock);
-temporaState.onAction(handleAction);
-temporaState.start();
+state.onLastBlock(handleLastBlock);
+state.onAction(handleAction);
+state.start();
 
 console.log('[TemporaSync] TemporaSync Started');
