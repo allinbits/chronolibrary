@@ -29,7 +29,9 @@ jobs:
         run: npm install -g pnpm
 
       - name: Install dependencies
-        run: pnpm install
+        run: |
+          cd ./packages/${{ github.event.inputs.package }}
+          pnpm install
 
       - name: Build package
         run: |
