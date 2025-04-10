@@ -13,9 +13,16 @@ export class ChronoState {
     private batchSize = 10;
     private lastBlock = '';
     private maxBlock: number = -1;
+    private prefixes: string[] = [];
 
     constructor(config: Config) {
         this.config = config;
+        if (this.config.MEMO_PREFIX) {
+            this.prefixes = this.config.MEMO_PREFIX.split(',');
+        } else {
+            this.prefixes = [];
+        }
+
         this.lastBlock = config.START_BLOCK;
         if (this.config.BATCH_SIZE) {
             this.batchSize = this.config.BATCH_SIZE;
@@ -195,7 +202,7 @@ export class ChronoState {
                     console.log(`Fetching memo for tx: ${txHash}`);
                 }
 
-                const result = await Requests.getMemoFromTx(this.config, txHash);
+                const result = await Requests.getMemoFromTx(this.config, this.prefixes, txHash);
                 if (!result) {
                     return null;
                 }

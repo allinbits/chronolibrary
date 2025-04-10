@@ -35,7 +35,7 @@ export async function getBlockByHeight(apiUrls: string[], blockHeight: number) {
     throw new Error(`Failed to fetch block height ${blockHeight}, all API urls have failed`);
 }
 
-export async function getMemoFromTx(config: Config, txHash: string) {
+export async function getMemoFromTx(config: Config, prefixes: string[], txHash: string) {
     for (let api of config.API_URLS) {
         const txResponse = await fetch(`${api}/cosmos/tx/v1beta1/txs/${txHash.toUpperCase()}`);
 
@@ -44,8 +44,20 @@ export async function getMemoFromTx(config: Config, txHash: string) {
         }
 
         const txData = (await txResponse.json()) as TransactionResponse;
-        if (config.MEMO_PREFIX && !decodeUnicode(txData.tx.body.memo).startsWith(config.MEMO_PREFIX)) {
-            return null;
+        if (prefixes.length >= 1) {
+            let foundPrefix = false;
+            for(let prefix of prefixes) {
+                if (!decodeUnicode(txData.tx.body.memo).startsWith(prefix)) {
+                    continue;
+                }
+
+                foundPrefix = true;
+                break;
+            }
+
+            if (!foundPrefix) {
+                return null;
+            }
         }
 
         if (txData.tx_response.code !== 0) {

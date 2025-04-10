@@ -1,4 +1,7 @@
 ```
+2.0.1
+- Add support for multi-prefix with comma delimiter
+
 2.0.0
 - Rename
 
