@@ -1,4 +1,4 @@
-import { createHash } from "crypto";
+import { createHash } from 'crypto';
 
 export function base64ToArrayBuffer(base64: string) {
     const binary_string = atob ? atob(base64) : window.atob(base64);
@@ -20,9 +20,61 @@ export function toHex(data: Uint8Array): string {
 }
 
 export function sha256(uint8Array: Uint8Array) {
-    return createHash("sha256").update(Buffer.from(uint8Array)).digest();
+    return createHash('sha256').update(Buffer.from(uint8Array)).digest();
 }
 
 export function decodeUnicode(str: string) {
     return str.replace(/\\u([\dA-Fa-f]{4})/g, (_, code) => String.fromCharCode(parseInt(code, 16)));
-};
+}
+
+/**
+ * Input should be the full memo. ie. `example.send("blah","blah","blah")`
+ * commandPrefix should be the full command name. ie `example.Send`
+ *
+ * @export
+ * @param {string} memo
+ * @param {string} commandPrefix
+ * @return {*} 
+ */
+export function extractMemoContent(memo: string, commandPrefix: string) {
+    const start = `${commandPrefix}(`;
+    const end = `)`;
+
+    // Check if the memo starts with the command and ends with ')'
+    if (memo.startsWith(start) && memo.endsWith(end)) {
+        const content = memo.slice(start.length, -1);
+
+        let inString = false;
+        let currentItem = '';
+        const result = [];
+
+        for (let i = 0; i < content.length; i++) {
+            const char = content[i];
+
+            if (char === '"' && (i === 0 || content[i - 1] !== '\\')) {
+                inString = !inString;
+            }
+
+            if (char === ',' && !inString) {
+                result.push(currentItem);
+                currentItem = '';
+            } else {
+                currentItem += char;
+            }
+        }
+
+        if (currentItem.trim()) {
+            result.push(currentItem);
+        }
+
+        return result.map((item) => {
+            item = item.trim();
+            if (item.startsWith('"') && item.endsWith('"')) {
+                return item.slice(1, -1);
+            }
+            return item;
+        });
+    }
+
+    return [];
+}

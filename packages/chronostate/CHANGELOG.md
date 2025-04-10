@@ -1,4 +1,7 @@
 ```
+2.0.3
+- Add function extractMemoContent
+
 2.0.2
 - Fix last block event type
 
