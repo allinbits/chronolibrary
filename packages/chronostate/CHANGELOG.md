@@ -1,4 +1,7 @@
 ```
+2.0.4
+- Fix Type Exports
+
 2.0.3
 - Add function extractMemoContent
 

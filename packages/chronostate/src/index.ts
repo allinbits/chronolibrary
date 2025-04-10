@@ -3,6 +3,9 @@ import { Action, Config } from './types';
 import { BlockResponse } from './types/block';
 import { base64ToArrayBuffer, sha256, toHex } from './utility';
 
+export * from './utility/index';
+export * from './types/index'
+
 export class ChronoState {
     isParsing = false;
     isStopped = false;
