@@ -50,7 +50,7 @@ export class ChronoState {
         this.callbacks.splice(idx, 1);
     }
 
-    onLastBlock(callback: (block: String) => void) {
+    onLastBlock(callback: (block: String | string) => void) {
         this.incremental++;
         this.callbacksOffBlock.push({ id: this.incremental, cb: callback });
         return this.incremental;

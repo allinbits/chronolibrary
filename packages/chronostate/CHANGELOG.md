@@ -1,4 +1,7 @@
 ```
+2.0.2
+- Fix last block event type
+
 2.0.1
 - Add support for multi-prefix with comma delimiter
 
