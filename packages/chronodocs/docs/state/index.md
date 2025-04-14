@@ -23,13 +23,13 @@ When a relevant memo is found, it triggers the corresponding function to allow f
 
 ## Memo Structure
 
-Memos are expected to follow a URLSearchParams-like structure, which is human-readable and familiar. The memo must have a prefix to help the event parser identify which events need to be processed.
+Memos are expected to follow a general function call which looks like the following:
 
 ```
-0xForum?a=CREATE_THREAD&t=Some Title&c=Some Content
+somenamespace.SomeFunction("some argument","another argument")
 ```
 
-In this example, 0xForum is the prefix, indicating that the memo is related to a forum event (such as creating a thread). The query parameters (a, t, c) provide the details of the event, like the action type, title, and content of the thread.
+In this example, somenamespace is the prefix.
 
 ## How Event Sourcing Works
 
