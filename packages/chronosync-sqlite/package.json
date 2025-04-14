@@ -1,5 +1,5 @@
 {
-    "name": "tempora-sync",
+    "name": "chronosync-sqlite",
     "version": "1.0.0",
     "description": "",
     "author": "stuyk",
@@ -10,11 +10,8 @@
         "build": "tsc"
     },
     "dependencies": {
-        "@atomone/chronostate": "^2.0.0",
-        "@elysiajs/cors": "^1.2.0",
-        "@elysiajs/node": "^1.2.6",
+        "@atomone/chronostate": "^2.0.4",
         "@types/node": "^22.13.10",
-        "elysia": "^1.2.25",
         "tsx": "^4.19.3"
     },
     "prettier": {

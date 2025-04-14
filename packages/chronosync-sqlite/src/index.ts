@@ -37,11 +37,9 @@ function handleAction(action: Action) {
 
 function handleLastBlock(block: String) {
     db.lastBlock.update.run(block as string, 1);
-    console.log(`Last Block Updated: ${block}`);
+    console.log(`Updated Block | ${block}`);
 }
 
 state.onLastBlock(handleLastBlock);
 state.onAction(handleAction);
 state.start();
-
-console.log('[TemporaSync] TemporaSync Started');

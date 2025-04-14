@@ -8,7 +8,6 @@ services:
     volumes:
       - ./data:/app/data
     environment:
-      PORT: 3939
       API_URLS: "https://atomone-api.allinbits.com,https://atomone-rest.publicnode.com"
       START_BLOCK: "2403341"
       BATCH_SIZE: 50

@@ -1,5 +1,5 @@
 {
-    "name": "indexer-feed",
+    "name": "chronosync-mongodb",
     "version": "1.0.0",
     "description": "",
     "author": "stuyk",
