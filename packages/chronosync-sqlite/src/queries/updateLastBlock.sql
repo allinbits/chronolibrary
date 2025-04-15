@@ -1,1 +1,0 @@
-UPDATE last_block SET block_value = ? WHERE id = ?;

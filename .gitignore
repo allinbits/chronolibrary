@@ -1,5 +1,5 @@
 node_modules
 packages/chronodocs/docs/.vitepress/dist
 packages/chronodocs/docs/.vitepress/cache
-packages/chronosync/data
+packages/chronosync-sqlite/data
 dist/

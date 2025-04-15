@@ -9,29 +9,37 @@ if (!fs.existsSync('./data')) {
 const config = useConfig();
 const db = new DatabaseSync('./data/db.sqlite');
 
-function getQuery(path: string) {
-    return fs.readFileSync((process.cwd() + path).replace(/\\/gm, '/'), 'utf-8');
-}
-
 export function useDatabase() {
-    db.exec(getQuery('/src/queries/createTableActions.sql'));
-    db.exec(getQuery('/src/queries/createTableLastBlock.sql'));
+    db.exec(`
+        CREATE TABLE IF NOT EXISTS actions (
+            hash TEXT PRIMARY KEY,
+            height TEXT NOT NULL,
+            timestamp TEXT NOT NULL,
+            from_address TEXT NOT NULL,
+            to_address TEXT NOT NULL,
+            memo TEXT NOT NULL,
+            amounts JSONB NOT NULL
+        );`
+    );
+
+    db.exec(`
+        CREATE TABLE IF NOT EXISTS last_block (
+            id INTEGER PRIMARY KEY,
+            block_value TEXT NOT NULL
+        );`
+    );
 
     // Only inserts a row if the row does not exist.
-    db.prepare(getQuery('/src/queries/insertLastBlockNonExistant.sql')).run(config.START_BLOCK);
+    db.prepare(`INSERT OR IGNORE INTO last_block (id, block_value) VALUES (1, ?);`).run(config.START_BLOCK);
 
     return {
         action: {
-            insert: db.prepare(getQuery('/src/queries/insertAction.sql')),
-            select: db.prepare(getQuery('/src/queries/selectAction.sql')),
-            selectAll: db.prepare(getQuery('/src/queries/selectAllActions.sql')),
-            selectSome(minBlock: number, maxBlock: number) {
-                return db.prepare(getQuery('/src/queries/selectSomeActions.sql')).iterate(minBlock, maxBlock);
-            }
+            insert: db.prepare(`INSERT INTO actions (hash, height, timestamp, from_address, to_address, memo, amounts) VALUES (?, ?, ?, ?, ?, ?, json(?))`),
+            select: db.prepare(`SELECT * FROM actions WHERE hash = ?;`),
         },
         lastBlock: {
-            select: db.prepare(getQuery('/src/queries/selectLastBlock.sql')),
-            update: db.prepare(getQuery('/src/queries/updateLastBlock.sql')),
+            select: db.prepare(`SELECT * FROM last_block WHERE id = ?`),
+            update: db.prepare(`UPDATE last_block SET block_value = ? WHERE id = ?;`),
         },
     };
 }

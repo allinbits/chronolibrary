@@ -1,1 +1,0 @@
-INSERT INTO actions (hash, height, timestamp, from_address, to_address, memo, amounts) VALUES (?, ?, ?, ?, ?, ?, json(?))
