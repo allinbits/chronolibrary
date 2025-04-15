@@ -1,0 +1,28 @@
+services:
+  postgres:
+    image: postgres:16
+    restart: always
+    environment:
+      POSTGRES_DB: actions
+      POSTGRES_USER: username
+      POSTGRES_PASSWORD: password
+    ports:
+      - "5432:5432"
+  chronosync-postgres:
+    build: .
+    container_name: chronosync-postgres
+    restart: always
+    ports:
+      - "3939:3939"
+    volumes:
+      - ./data:/app/data
+    environment:
+      API_URLS: "https://atomone-api.allinbits.com,https://atomone-rest.publicnode.com"
+      START_BLOCK: "2403341"
+      BATCH_SIZE: 50
+      PG_URI: postgres://username:password@postgres:5432/actions
+      # MEMO_PREFIX: "0xTest"
+      # RECEIVER: process.env.RECEIVER,
+      # SENDER: process.env.SENDER,
+      # LOG: process.env.LOG === 'true' ? true : false,
+    command: ["pnpm", "start"]
