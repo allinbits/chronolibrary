@@ -17,17 +17,23 @@ outline: 'deep'
 git clone https://github.com/allinbits/chronolibrary
 ```
 
+2. Pick your Driver, ChronoSync comes in a few different flavors for database support.
+
 ```sh
-cd chronolibrary/packages/chronosync
+cd chronolibrary/packages/chronosync-postgres
+cd chronolibrary/packages/chronosync-mongodb
+cd chronolibrary/packages/chronosync-sqlite
 ```
 
-2. Running the Service: Once you have the necessary files, navigate to the folder containing docker-compose.yml and run the following command:
+3. Running the Service: Once you have the necessary files, navigate to the folder containing docker-compose.yml and run the following command:
 
 ```
 docker-compose up
 ```
 
-This will start ChronoSync with the necessary services. The data will be stored in the data folder under `chronosync` as data.sqlite.
+This will start ChronoSync with the necessary services.
+
+If SQLite is used, the data will be store din a volume under `data/data.sqlite`.
 
 To shut down the service, you can run:
 
@@ -35,7 +41,7 @@ To shut down the service, you can run:
 docker-compose down
 ```
 
-3. Configuration: You can modify environment variables in the docker-compose.yml file to adjust settings such as API ports or database configurations. By default, ChronoSync uses port 3939 for its REST endpoints.
+4. Configuration: You can modify environment variables in the docker-compose.yml file to adjust settings such as API ports or database configurations. By default, ChronoSync uses port 3939 for its REST endpoints.
 
 Additionally, if you make any changes to the configuration of `docker-compose.yml` you can rebuild it with:
 
