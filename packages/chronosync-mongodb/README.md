@@ -13,8 +13,6 @@ This simply takes prefixes and pushes the actions to the database.
 
 ## Usage
 
-Keep in mind that when building the `data.sqlite` file will automatically be copied over if present.
-
 ```
 docker-compose up
 ```
