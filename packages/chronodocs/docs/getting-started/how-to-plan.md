@@ -25,22 +25,22 @@ Here's an example of a forum application.
 
 ```ts
 // Create Thread
-0xForum?a=0&t=myTitle&c=my+content
+forum.Create("title", "content")
 
 // Reply to Thread
-0xForum?a=1&th=threadHash&c=my+content
+forum.Reply("thread_hash", "content")
 
 // Delete Reply (If Owner)
-0xForum?a=2&th=threadHash&mh=messageHash
+forum.ReplyDelete("thread_hash", "msg_hash")
 
 // Delete Thread (If Owner)
-0xForum?a=3&th=threadHash
+froum.ThreadDelete("thread_hash")
 
-// Upvote Message
-0xForum?a=4&th=threadHash&mh=messageHash
+// Upvote Message / Thread
+forum.Upvote("thread_hash", "optional_msg_hash");
 
-// Remove Upvote from Message
-0xForum?a=5&th=threadHash&mh=messageHash
+// Remove Upvote from Message / Thread
+forum.Unvote("thread_hash", "optiona_msg_hash")
 ```
 
 All of the above allows you to easily construct a forum with threads, replies, and a simple upvote system.
@@ -54,24 +54,22 @@ Use the [Constructor Library](../constructor/index.md) to easily bind actions to
 Below is an example from a Todo List Application:
 
 ```ts
-const constructor = new ChronoConstructor<{ [hash: string]: string }>('TodoList');
+const constructor = new ChronoConstructor<{ [hash: string]: string }>();
 
-// TodoList?a=ADD&c=this is my entry
-constructor.addAction('ADD', (dataSet, action) => {
-  const urlSearchParams = new URLSearchParams(action.memo.replace('TodoList?', ''));
-  const content = urlSearchParams.get('c');
-  if (!content) {
-    console.warn(`Skipped ${action.hash}, content is missing from action`);
+// todo.Add("this is my todo list item")
+constructor.addAction('Add', (dataSet, action) => {
+  const [arg1] = extractMemoContent(action.memo, 'example.add');
+  if (!arg1) {
+    console.warn(`Skipped ${action.hash}, content is missing args`);
     return;
   }
 
-  dataSet[action.hash] = content;
+  dataSet[action.hash] = arg1;
 });
 
-// TodoList?a=ADD&h=this_is_a_hash_from_add
-constructor.addAction('REMOVE', (dataSet, action) => {
-  const urlSearchParams = new URLSearchParams(action.memo.replace('TodoList?', ''));
-  const hash = urlSearchParams.get('h');
+// todo.Remove("hash_from_tx_for_add")
+constructor.addAction('Remove', (dataSet, action) => {
+ const [hash] = extractMemoContent(action.memo, 'example.add');
   if (!hash) {
     console.warn(`Skipped ${action.hash}, hash is missing from action`);
     return;
