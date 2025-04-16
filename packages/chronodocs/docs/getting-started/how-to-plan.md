@@ -11,11 +11,11 @@ It requires thinking in a slightly different way, but it's quite straight forwar
 
 ## Understand Constraints
 
-- Memos can only be 255 characters in length
+- Memos can only be 512 bytes
 
-- Memos can be pruned depending on the API provider, not all API providers run full nodes
+- Memos can be pruned depending on the API provider, not all API providers run nodes with all history maintained
 
-- What is posted on-chain is there forever, nothing can remove it. Only an action can `hide` it from the client view.
+- What is posted on-chain is there forever, nothing can remove it. Only an action can `hide` it from the client view
 
 ## Plan the Memos
 
@@ -87,3 +87,13 @@ async function update() {
 
 update();
 ```
+
+## Deploy a ChronoSync Instance
+
+There's a few different flavors of ChronoSync that will allow you to start indexing memos.
+
+However, how you serve them is up to you and your individual needs.
+
+I highly recommend the Postgres ChronoSync mixed with PostgREST for a quick startup.
+
+Learn more about [ChronoSync](../sync/index.md).
