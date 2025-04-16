@@ -10,33 +10,35 @@ pnpm i @atomone/chronoconstructor
 
 ## Usage
 
+Below is a simple example usage for adding and subtracting and then storing the results mapped to a transaction hash.
+
 ```ts
-import { ChronoConstructor } from '@atomone/chronoconstructor';
+import { ChronoConstructor, extractMemoContent } from '@atomone/chronoconstructor';
 
-const chronoConstructor = new ChronoConstructor<{ [hash: string]: string }>('TodoList');
+const state = new ChronoConstructor<{ [hash: string]: string }>();
 
-// TodoList?a=ADD&c=this is my entry
-chronoConstructor.addAction('ADD', (dataSet, action) => {
-  const urlSearchParams = new URLSearchParams(action.memo.replace('TodoList?', ''));
-  const content = urlSearchParams.get('c');
-  if (!content) {
-    console.warn(`Skipped ${action.hash}, content is missing from action`);
+// example.add("5", "5");
+state.addAction('add', (dataSet, action) => {
+  const [arg1, arg2] = extractMemoContent(action.memo, 'example.add');
+  if (!arg1 || !arg2) {
+    console.warn(`Skipped ${action.hash}, content is missing args`);
     return;
   }
 
-  dataSet[action.hash] = content;
+  const result = parseFloat(arg1) + parseFloat(arg2);
+  dataSet[action.hash] = result;
 });
 
-// TodoList?a=REMOVE&h=this_is_a_tx_hash_from_add
-chronoConstructor.addAction('REMOVE', (dataSet, action) => {
-  const urlSearchParams = new URLSearchParams(action.memo.replace('TodoList?', ''));
-  const hash = urlSearchParams.get('h');
-  if (!hash) {
-    console.warn(`Skipped ${action.hash}, hash is missing from action`);
+// example.sub("5", "5");
+state.addAction('sub', (dataSet, action) => {
+  const [arg1, arg2] = extractMemoContent(action.memo, 'example.sub');
+  if (!arg1 || !arg2) {
+    console.warn(`Skipped ${action.hash}, content is missing args`);
     return;
   }
 
-  delete dataSet[hash];
+  const result = parseFloat(arg1) - parseFloat(arg2);
+  dataSet[action.hash] = result;
 });
 
 const reconstructedState = await chronoConstructor.parse(actionDataGoesHere, originalStateGoesHere);

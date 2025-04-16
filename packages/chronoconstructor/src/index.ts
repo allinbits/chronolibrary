@@ -15,7 +15,6 @@ export class ChronoConstructor<T = {}> {
     lastBlock: string = '';
 
     private mappings: { [key: string]: (dataSet: T, action: Action) => Promise<void> | void } = {};
-    private prefix: string;
 
     /**
      * When creating a new class, specify what your prefix / namespace is.
@@ -25,9 +24,7 @@ export class ChronoConstructor<T = {}> {
      * @param {string} memoPrefix
      * @memberof ChronoConstructor
      */
-    constructor(memoPrefix: string) {
-        this.prefix = memoPrefix;
-    }
+    constructor() {}
 
     /**
      * Bind a specific action under the `a` query to a specific function.

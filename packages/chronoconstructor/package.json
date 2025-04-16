@@ -1,6 +1,6 @@
 {
     "name": "@atomone/chronoconstructor",
-    "version": "0.0.4",
+    "version": "0.0.5",
     "description": "Chrono Constructor is an event sourcing action mapper and parser.",
     "main": "dist/index.js",
     "types": "dist/index.d.ts",
