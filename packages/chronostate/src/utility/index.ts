@@ -1,4 +1,5 @@
 import { createHash } from 'crypto';
+import { TransactionResponse } from '../types/transaction';
 
 export function base64ToArrayBuffer(base64: string) {
     const binary_string = atob ? atob(base64) : window.atob(base64);
@@ -34,7 +35,7 @@ export function decodeUnicode(str: string) {
  * @export
  * @param {string} memo
  * @param {string} commandPrefix
- * @return {*} 
+ * @return {*}
  */
 export function extractMemoContent(memo: string, commandPrefix: string) {
     const start = `${commandPrefix}(`;
@@ -77,4 +78,69 @@ export function extractMemoContent(memo: string, commandPrefix: string) {
     }
 
     return [];
+}
+
+
+/**
+ * Find a valid memo in the messages for the bank module
+ * 
+ * Returns null if not valid memo found, otherwise returns a formatted memo.
+ *
+ * @export
+ * @param {{
+ *     sender?: string;
+ *     receiver?: string;
+ *     prefixes: string[];
+ *     txData: TransactionResponse;
+ * }} data
+ * @return {*} 
+ */
+export function findValidMemo(data: {
+    sender?: string;
+    receiver?: string;
+    prefixes: string[];
+    txData: TransactionResponse;
+}) {
+    if (data.prefixes.length >= 1) {
+        let foundPrefix = false;
+        for (let prefix of data.prefixes) {
+            if (!decodeUnicode(data.txData.tx.body.memo).startsWith(prefix)) {
+                continue;
+            }
+
+            foundPrefix = true;
+            break;
+        }
+
+        if (!foundPrefix) {
+            return null;
+        }
+    }
+
+    if (data.txData.tx_response.code !== 0) {
+        return null;
+    }
+
+    for (let message of data.txData.tx.body.messages) {
+        if (message['@type'] !== '/cosmos.bank.v1beta1.MsgSend') {
+            continue;
+        }
+
+        if (data.sender && message.from_address !== data.sender) {
+            continue;
+        }
+
+        if (data.receiver && message.to_address !== data.receiver) {
+            continue;
+        }
+
+        return {
+            from: message.from_address,
+            to: message.to_address,
+            memo: decodeUnicode(data.txData.tx.body.memo),
+            amounts: message.amount,
+        };
+    }
+
+    return null;
 }

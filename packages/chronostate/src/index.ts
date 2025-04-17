@@ -1,10 +1,10 @@
 import * as Requests from './requests/index';
 import { Action, Config } from './types';
 import { BlockResponse } from './types/block';
-import { base64ToArrayBuffer, sha256, toHex } from './utility';
+import { base64ToArrayBuffer, findValidMemo, sha256, toHex } from './utility';
 
 export * from './utility/index';
-export * from './types/index'
+export * from './types/index';
 
 export class ChronoState {
     isParsing = false;
@@ -79,11 +79,11 @@ export class ChronoState {
                     if (this.config.LOG) {
                         console.log(`Max block reached, waiting for new blocks`);
                     }
-    
+
                     await new Promise((resolve: Function) => {
                         setTimeout(resolve, 5000);
                     });
-    
+
                     continue;
                 }
             } else {
@@ -116,18 +116,22 @@ export class ChronoState {
                     const height = blockData.block.header.height;
                     const txHashes = blockData.block.data.txs;
                     const timestamp = blockData.block.header.time;
-    
+
                     for (let encodedTxHash of txHashes) {
-                        hexTxHashes.push({ hash: toHex(sha256(base64ToArrayBuffer(encodedTxHash))), timestamp, height });
+                        hexTxHashes.push({
+                            hash: toHex(sha256(base64ToArrayBuffer(encodedTxHash))),
+                            timestamp,
+                            height,
+                        });
                     }
                 }
-    
+
                 for (let txData of hexTxHashes) {
                     const result = await this.fetchMemoWithRetry(txData.hash);
                     if (!result) {
                         continue;
                     }
-    
+
                     this.emitCallbacks({
                         ...result,
                         timestamp: txData.timestamp,
@@ -135,7 +139,7 @@ export class ChronoState {
                         hash: txData.hash,
                     });
                 }
-    
+
                 this.lastBlock = `${batchEnd}`;
                 this.emitLastBlockCallbacks();
             }
@@ -157,13 +161,13 @@ export class ChronoState {
         }
     }
 
-    private emitCallbacks(action: Action) {
+    emitCallbacks(action: Action) {
         for (let callbackData of this.callbacks) {
             callbackData.cb(action);
         }
     }
 
-    private emitLastBlockCallbacks() {
+    emitLastBlockCallbacks() {
         for (let callbackData of this.callbacksOffBlock) {
             callbackData.cb(this.lastBlock);
         }
@@ -205,16 +209,36 @@ export class ChronoState {
                     console.log(`Fetching memo for tx: ${txHash}`);
                 }
 
-                const result = await Requests.getMemoFromTx(this.config, this.prefixes, txHash);
+                const result = await Requests.getTransaction(this.config, txHash);
                 if (!result) {
                     return null;
                 }
 
                 if (this.config.LOG) {
+                    console.log(`Successfully fetched tx: ${txHash}`);
+                }
+
+                const formattedMemo = await findValidMemo({
+                    sender: this.config.SENDER,
+                    receiver: this.config.RECEIVER,
+                    prefixes: this.prefixes,
+                    txData: result,
+                });
+
+                if (!formattedMemo) {
+                    return null;
+                }
+
+                console.log(JSON.stringify(result, null, '\t'));
+
+                if (this.config.LOG) {
                     console.log(`Successfully fetched memo for tx: ${txHash}`);
                 }
 
-                return result;
+                return {
+                    hash: txHash,
+                    ...formattedMemo,
+                };
             } catch (error) {
                 console.warn(`Failed to fetch memo for tx: ${txHash}, retrying...`, error);
                 await new Promise((resolve: Function) => {

@@ -1,6 +1,6 @@
 {
     "name": "@atomone/chronostate",
-    "version": "2.0.5",
+    "version": "2.0.6",
     "description": "ChronoState is a library which parses memos from individual blocks on-chain and then is meant to use the event sourcing pattern to reconstruct and give applications specific instructions to reconstruct state.",
     "main": "dist/index.js",
     "types": "dist/index.d.ts",

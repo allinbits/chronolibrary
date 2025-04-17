@@ -1,11 +1,10 @@
 import { Config } from '../types';
 import { BlockResponse } from '../types/block';
 import { TransactionResponse } from '../types/transaction';
-import { decodeUnicode } from '../utility';
 
 export async function getCurrentBlockHeight(apiUrls: string[]) {
     for (let api of apiUrls) {
-        const response = await fetch(`${api}/cosmos/base/tendermint/v1beta1/blocks/latest`).catch(err => {
+        const response = await fetch(`${api}/cosmos/base/tendermint/v1beta1/blocks/latest`).catch((err) => {
             return { ok: false, error: err };
         });
 
@@ -35,7 +34,7 @@ export async function getBlockByHeight(apiUrls: string[], blockHeight: number) {
     throw new Error(`Failed to fetch block height ${blockHeight}, all API urls have failed`);
 }
 
-export async function getMemoFromTx(config: Config, prefixes: string[], txHash: string) {
+export async function getTransaction(config: Config, txHash: string) {
     for (let api of config.API_URLS) {
         const txResponse = await fetch(`${api}/cosmos/tx/v1beta1/txs/${txHash.toUpperCase()}`);
 
@@ -43,50 +42,7 @@ export async function getMemoFromTx(config: Config, prefixes: string[], txHash: 
             continue;
         }
 
-        const txData = (await txResponse.json()) as TransactionResponse;
-        if (prefixes.length >= 1) {
-            let foundPrefix = false;
-            for(let prefix of prefixes) {
-                if (!decodeUnicode(txData.tx.body.memo).startsWith(prefix)) {
-                    continue;
-                }
-
-                foundPrefix = true;
-                break;
-            }
-
-            if (!foundPrefix) {
-                return null;
-            }
-        }
-
-        if (txData.tx_response.code !== 0) {
-            return null;
-        }
-
-        for (let message of txData.tx.body.messages) {
-            if (message['@type'] !== '/cosmos.bank.v1beta1.MsgSend') {
-                continue;
-            }
-
-            if (config.SENDER && message.from_address !== config.SENDER) {
-                continue;
-            }
-
-            if (config.RECEIVER && message.to_address !== config.RECEIVER) {
-                continue;
-            }
-
-            return {
-                hash: txHash,
-                from: message.from_address,
-                to: message.to_address,
-                memo: decodeUnicode(txData.tx.body.memo),
-                amounts: message.amount,
-            };
-        }
-
-        return null;
+        return (await txResponse.json()) as TransactionResponse;
     }
 
     throw new Error(`Failed to fetch transaction ${txHash}, all API urls have failed`);

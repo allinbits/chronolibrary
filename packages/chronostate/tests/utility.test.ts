@@ -1,5 +1,6 @@
 import { describe, it, expect } from 'vitest';
-import { base64ToArrayBuffer, toHex, sha256, decodeUnicode } from '../src/utility/index';
+import { base64ToArrayBuffer, toHex, sha256, decodeUnicode, findValidMemo } from '../src/utility/index';
+import { txResponse } from './data';
 
 describe('base64ToArrayBuffer', () => {
     it('should convert base64 to Uint8Array', () => {
@@ -30,3 +31,13 @@ describe('decodeUnicode', () => {
         expect(decodeUnicode(input)).toBe('Hello, $');
     });
 });
+
+describe('findValidMemo', () => {
+    it('should find a valid memo', () => {
+        const memo = findValidMemo({ txData: txResponse, prefixes: [] });
+        expect(memo);
+        expect(memo?.from == 'atone1g775g5u284q96zq8d0q948tj50l3luf7cwu250')
+        expect(memo?.to == 'atone1h36dsx4pflgjmesct389faxpqtxczj3lqjmu9s')
+        expect(memo?.memo == '');
+    });
+})

@@ -1,4 +1,10 @@
 ```
+2.0.6
+- Update Tests and Decouple Memo Fetch Logic
+
+2.0.5
+- License update
+
 2.0.4
 - Fix Type Exports
 
