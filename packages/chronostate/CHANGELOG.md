@@ -1,4 +1,7 @@
 ```
+2.1.0
+- Return all messages when a matching memo is found
+
 2.0.6
 - Update Tests and Decouple Memo Fetch Logic
 

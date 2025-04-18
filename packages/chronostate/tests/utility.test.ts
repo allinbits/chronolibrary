@@ -39,5 +39,6 @@ describe('findValidMemo', () => {
         expect(memo?.from == 'atone1g775g5u284q96zq8d0q948tj50l3luf7cwu250')
         expect(memo?.to == 'atone1h36dsx4pflgjmesct389faxpqtxczj3lqjmu9s')
         expect(memo?.memo == '');
+        expect(memo && memo.messages.length >= 1)
     });
 })

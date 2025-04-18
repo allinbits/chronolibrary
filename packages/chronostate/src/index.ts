@@ -229,8 +229,6 @@ export class ChronoState {
                     return null;
                 }
 
-                console.log(JSON.stringify(result, null, '\t'));
-
                 if (this.config.LOG) {
                     console.log(`Successfully fetched memo for tx: ${txHash}`);
                 }

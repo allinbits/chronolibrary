@@ -139,6 +139,7 @@ export function findValidMemo(data: {
             to: message.to_address,
             memo: decodeUnicode(data.txData.tx.body.memo),
             amounts: message.amount,
+            messages: data.txData.tx.body.messages
         };
     }
 
