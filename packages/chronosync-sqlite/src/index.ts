@@ -12,20 +12,15 @@ const state = new ChronoState({ ...config, START_BLOCK: lastBlock.block_value })
 let lastAction: Action | undefined;
 
 function handleAction(action: Action) {
-    const row = db.action.select.get(action.hash);
-    if (row) {
-        return;
-    }
-
     try {
+        //hash, height, timestamp, memo, messages
+
         db.action.insert.run(
             action.hash,
             action.height,
             action.timestamp,
-            action.from,
-            action.to,
             action.memo,
-            JSON.stringify(action.amounts)
+            JSON.stringify(action.messages)
         );
     } catch (err) {
         console.error(err);

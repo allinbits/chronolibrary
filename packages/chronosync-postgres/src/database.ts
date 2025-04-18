@@ -25,10 +25,8 @@ export async function initDatabase() {
             hash TEXT PRIMARY KEY,
             height TEXT NOT NULL,
             timestamp TEXT NOT NULL,
-            from_address TEXT NOT NULL,
-            to_address TEXT NOT NULL,
             memo TEXT NOT NULL,
-            amounts JSONB NOT NULL
+            messages JSONB NOT NULL
         );`);
 
     // Insert default row for last_block if missing
@@ -46,17 +44,15 @@ export function useDatabase() {
             insert: async (actionData: Action) => {
                 const client = await pool.connect();
                 return await client.query(
-                    `INSERT INTO actions (hash, height, timestamp, from_address, to_address, memo, amounts) 
-                    VALUES ($1, $2, $3, $4, $5, $6, $7)
+                    `INSERT INTO actions (hash, height, timestamp, memo, messages) 
+                    VALUES ($1, $2, $3, $4, $5)
                     ON CONFLICT (hash) DO NOTHING`,
                     [
                         actionData.hash,
                         actionData.height,
                         actionData.timestamp,
-                        actionData.from,
-                        actionData.to,
                         actionData.memo,
-                        JSON.stringify(actionData.amounts),
+                        JSON.stringify(actionData.messages),
                     ]
                 );
             },
