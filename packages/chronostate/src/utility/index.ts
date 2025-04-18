@@ -80,21 +80,6 @@ export function extractMemoContent(memo: string, commandPrefix: string) {
     return [];
 }
 
-
-/**
- * Find a valid memo in the messages for the bank module
- * 
- * Returns null if not valid memo found, otherwise returns a formatted memo.
- *
- * @export
- * @param {{
- *     sender?: string;
- *     receiver?: string;
- *     prefixes: string[];
- *     txData: TransactionResponse;
- * }} data
- * @return {*} 
- */
 export function findValidMemo(data: {
     sender?: string;
     receiver?: string;
@@ -121,27 +106,27 @@ export function findValidMemo(data: {
         return null;
     }
 
-    for (let message of data.txData.tx.body.messages) {
-        if (message['@type'] !== '/cosmos.bank.v1beta1.MsgSend') {
-            continue;
-        }
+    if (data.sender || data.receiver) {
+        const result = data.txData.tx.body.messages.find(x => {
+            if (x['@type'] !== '/cosmos.bank.v1beta1.MsgSend') {
+                return false;
+            }
 
-        if (data.sender && message.from_address !== data.sender) {
-            continue;
-        }
+            return x.from_address == data.sender || x.to_address == data.receiver;
+        });
 
-        if (data.receiver && message.to_address !== data.receiver) {
-            continue;
+        if (!result) {
+            return null;
         }
 
         return {
-            from: message.from_address,
-            to: message.to_address,
             memo: decodeUnicode(data.txData.tx.body.memo),
-            amounts: message.amount,
             messages: data.txData.tx.body.messages
-        };
+        }
     }
 
-    return null;
+    return {
+        memo: decodeUnicode(data.txData.tx.body.memo),
+        messages: data.txData.tx.body.messages
+    };
 }

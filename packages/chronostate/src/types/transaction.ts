@@ -10,18 +10,11 @@ export interface Tx {
 }
 
 export interface Body {
-    messages: Message[];
+    messages: { '@type': string; [key: string]: any }[];
     memo: string;
     timeout_height: string;
     extension_options: any[];
     non_critical_extension_options: any[];
-}
-
-export interface Message {
-    '@type': string;
-    from_address: string;
-    to_address: string;
-    amount: Amount[];
 }
 
 export interface Amount {
