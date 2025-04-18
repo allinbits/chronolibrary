@@ -1,4 +1,7 @@
 ```
+2.2.0
+- Return only hash, memo, timestamp, height, and messages for onAction
+
 2.1.0
 - Return all messages when a matching memo is found
 
