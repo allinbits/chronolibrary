@@ -1,6 +1,6 @@
 ---
 order: 98
-outline: 'deep'
+outline: "deep"
 ---
 
 # Setup ChronoState
@@ -40,8 +40,8 @@ async function parseBlocks() {
   const state = new ChronoState({
     API_URLS: endpoints,
     MEMO_PREFIX: "0xTest", // Optional prefix
-    // RECEIVER: 'atone...', // Optional address
-    // SENDER: 'atone...', // Optional address
+    // RECEIVER: 'atone...', // Optional address, this limits transactions to bank module transactions
+    // SENDER: 'atone...', // Optional address, this limits transactions to bank module transactions
     START_BLOCK: min_height,
     LOG: true,
   });
@@ -76,15 +76,22 @@ When ChronoState processes a memo, it triggers the handleAction function and pas
 
 ```ts
 {
-  hash: '682defbf453ffe65a1a56f595fdadd9cc14e99b6e9b8a396bc924b9c69fc9d0b',
-  from: 'atone16k0xnxqr48qdwxreu6rgcghg0xp9hn7vpn06nm',
-  to: 'atone1uq6zjslvsa29cy6uu75y8txnl52mw06j6fzlep',
+  hash: '682defbf...',
   memo: 'forum.CreateThread("My Title","My Body")',
-  amounts: [
-    { denom: 'uatone', amount: '1000000' }
-  ],
   timestamp: '2025-03-18T14:45:37.323011612Z',
-  height: '2267005'
+  height: '2267005',
+  messages: [
+    {
+      "@type": "/cosmos.bank.v1beta1.MsgSend",
+      "from_address": "atone16...",
+      "to_address": "atone1u...",
+      "amount": [
+        {
+          "denom": "uatone",
+          "amount": "1"
+        }
+      ]
+    }
+  ]
 }
 ```
-
