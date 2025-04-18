@@ -56,8 +56,8 @@ importers:
   packages/chronosync-mongodb:
     dependencies:
       '@atomone/chronostate':
-        specifier: ^2.0.2
-        version: 2.0.4
+        specifier: ^2.1.0
+        version: 2.1.0
       '@types/node':
         specifier: ^22.13.10
         version: 22.14.1
@@ -75,8 +75,8 @@ importers:
   packages/chronosync-postgres:
     dependencies:
       '@atomone/chronostate':
-        specifier: ^2.0.4
-        version: 2.0.4
+        specifier: ^2.1.0
+        version: 2.1.0
       '@types/node':
         specifier: ^22.13.10
         version: 22.14.1
@@ -97,8 +97,8 @@ importers:
   packages/chronosync-sqlite:
     dependencies:
       '@atomone/chronostate':
-        specifier: ^2.0.4
-        version: 2.0.4
+        specifier: ^2.1.0
+        version: 2.1.0
       '@types/node':
         specifier: ^22.13.10
         version: 22.14.1
@@ -184,8 +184,8 @@ packages:
     resolution: {integrity: sha512-jXGzGBRUS0oywQwnaCA6mMDJO7LoC3dYSLsyNfIqxDR4SNGLhtg3je0Y31lc24OA4nYyKAYgVLtjfrpcpsWShg==}
     engines: {node: '>= 14.0.0'}
 
-  '@atomone/chronostate@2.0.4':
-    resolution: {integrity: sha512-nAc3kgQsNkFLuCTY0uVsRBftZE571HUc3s1TWrqZdf4BcG353+T426iop6BZSD6He+lHOQsdh8ZfeP+YlASkIw==}
+  '@atomone/chronostate@2.1.0':
+    resolution: {integrity: sha512-4BOCyb9wzpI13koxbDSGHsPOihUvxG72FI8PT7h2dSS4eswTiS2hlqqk5SVFB1w6Z8GBREWRJxQtuxHWVeuD6g==}
 
   '@babel/helper-string-parser@7.25.9':
     resolution: {integrity: sha512-4A/SCr/2KLd5jrtOMFzaKjVtAei3+2r/NChoBNoZ3EyP/+GlhoaEGoWOZUmFmoITP7zOJyHIMm+DYRd8o3PvHA==}
@@ -1891,7 +1891,7 @@ snapshots:
     dependencies:
       '@algolia/client-common': 5.23.4
 
-  '@atomone/chronostate@2.0.4': {}
+  '@atomone/chronostate@2.1.0': {}
 
   '@babel/helper-string-parser@7.25.9': {}
 
