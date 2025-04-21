@@ -9,14 +9,14 @@ export * from './types/index';
 export class ChronoState {
     isParsing = false;
     isStopped = false;
-    private config: Config;
-    private callbacks: Array<{ id: number; cb: (action: Action) => void }> = [];
-    private callbacksOffBlock: Array<{ id: number; cb: (block: String) => void }> = [];
-    private incremental = 1;
-    private batchSize = 10;
-    private lastBlock = '';
-    private maxBlock: number = -1;
-    private prefixes: string[] = [];
+    config: Config;
+    callbacks: Array<{ id: number; cb: (action: Action) => void }> = [];
+    callbacksOffBlock: Array<{ id: number; cb: (block: string) => void }> = [];
+    incremental = 1;
+    batchSize = 10;
+    lastBlock = '';
+    maxBlock: number = -1;
+    prefixes: string[] = [];
 
     constructor(config: Config) {
         this.config = config;
@@ -53,7 +53,7 @@ export class ChronoState {
         this.callbacks.splice(idx, 1);
     }
 
-    onLastBlock(callback: (block: String | string) => void) {
+    onLastBlock(callback: (block: string) => void) {
         this.incremental++;
         this.callbacksOffBlock.push({ id: this.incremental, cb: callback });
         return this.incremental;
@@ -157,6 +157,7 @@ export class ChronoState {
             const response = await Requests.getCurrentBlockHeight(this.config.API_URLS);
             this.maxBlock = parseInt(response);
         } catch (err) {
+            console.error(err);
             console.warn(`Failed to fetch head block for chain.`);
         }
     }
@@ -218,7 +219,7 @@ export class ChronoState {
                     console.log(`Successfully fetched tx: ${txHash}`);
                 }
 
-                const formattedMemo = await findValidMemo({
+                const formattedMemo = findValidMemo({
                     sender: this.config.SENDER,
                     receiver: this.config.RECEIVER,
                     prefixes: this.prefixes,

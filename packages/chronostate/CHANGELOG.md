@@ -1,4 +1,7 @@
 ```
+2.2.1
+- Fix primitive for string, reduce complexity
+
 2.2.0
 - Return only hash, memo, timestamp, height, and messages for onAction
 
