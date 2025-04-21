@@ -6,7 +6,7 @@ hero:
   name: "Chrono Library"
   tagline: "Reconstructable State Applications on AtomOne"
   actions:
-    - theme: ''
+    - theme: 'alt'
       text: "Getting Started"
       link: /getting-started
 
