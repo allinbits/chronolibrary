@@ -34,7 +34,7 @@ forum.Reply("thread_hash", "content")
 forum.ReplyDelete("thread_hash", "msg_hash")
 
 // Delete Thread (If Owner)
-froum.ThreadDelete("thread_hash")
+forum.ThreadDelete("thread_hash")
 
 // Upvote Message / Thread
 forum.Upvote("thread_hash", "optional_msg_hash");
