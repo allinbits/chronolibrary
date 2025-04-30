@@ -1,6 +1,10 @@
 import { createHash } from 'crypto';
 import { TransactionResponse } from '../types/transaction';
 
+export namespace MemoExtractor {
+  export interface TypeMap {}
+}
+
 export function base64ToArrayBuffer(base64: string) {
     const binary_string = atob ? atob(base64) : window.atob(base64);
     const len = binary_string.length;
@@ -37,7 +41,7 @@ export function decodeUnicode(str: string) {
  * @param {string} commandPrefix
  * @return {*}
  */
-export function extractMemoContent(memo: string, commandPrefix: string) {
+export function extractMemoContent<K extends keyof MemoExtractor.TypeMap>(memo: string, commandPrefix: K): MemoExtractor.TypeMap[K] {
     const start = `${commandPrefix}(`;
     const end = `)`;
 
@@ -74,10 +78,10 @@ export function extractMemoContent(memo: string, commandPrefix: string) {
                 return item.slice(1, -1);
             }
             return item;
-        });
+        }) as MemoExtractor.TypeMap[K];
     }
 
-    return [];
+    return [] as MemoExtractor.TypeMap[K];
 }
 
 export function findValidMemo(data: {
