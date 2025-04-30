@@ -10,7 +10,8 @@ describe('getCurrentBlockHeight', () => {
             ]);
             assert(parseInt(height) >= 1);
         } catch (err) {
-            console.log(`Failed to fetch block height`);
+            console.error(err);
+            assert.fail('Failed to fetch block height')
         }
     });
 
@@ -22,7 +23,8 @@ describe('getCurrentBlockHeight', () => {
             ]);
             assert(parseInt(height) >= 1);
         } catch (err) {
-            console.log(`Failed to fetch block height`);
+            console.error(err);
+            assert.fail('Failed to fetch block height')
         }
     });
 

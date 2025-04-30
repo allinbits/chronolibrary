@@ -19,7 +19,7 @@ test('test callbacks', async () => {
         didCallLastBlock = true;
     });
 
-    state.emitCallbacks({ amounts: [], from: '', to: '', hash: '', height: '', memo: '', timestamp: '' });
+    state.emitCallbacks({ hash: '', height: '', memo: '', timestamp: '', messages: [] });
     state.emitLastBlockCallbacks();
 
     assert(didCallAction, 'Did not emit callbacks');
