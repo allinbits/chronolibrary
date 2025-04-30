@@ -1,14 +1,14 @@
 export interface Config {
     API_URLS: Array<string>;
-    MEMO_PREFIX?: string | undefined;
-    RECEIVER?: string | undefined;
+    MEMO_PREFIX?: string;
+    RECEIVER?: string;
     START_BLOCK: string;
-    SENDER?: string | undefined;
-    LOG?: boolean | undefined;
+    SENDER?: string;
+    LOG?: boolean;
     BATCH_SIZE?: number;
 }
 
-export interface Action<T = { '@type': string; [key: string]: any }> {
+export interface Action<T = { [key: string]: any }> {
     hash: string;
     height: string;
     timestamp: string;
