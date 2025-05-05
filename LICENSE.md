@@ -18,12 +18,18 @@ of GNU Affero General Public License 3).
 In accordance with Section 7 of the License, any interactive user interface of a 
 Covered Work, or of any other work or service that does not include the Covered Work 
 but which derives functionality from it or otherwise uses it (an “Applicable Work”), 
-must prominently display a reasonable attribution notice for the Covered Work (the 
-“Attribution Notice”). The Attribution Notice shall, at minimum, credit the original
-author(s) or copyright holder of the Covered Work in a manner readily visible to users, 
-and include an active hyperlink to the official website or domain designated by the 
-Licensor for attribution (the “Attribution URL”). The Attribution Notice must be at least 
-as conspicuous as other legal notices or credits in the same interface. 
+and any material that promotes the Covered Work, must prominently display a reasonable 
+attribution notice for the Covered Work (the “Attribution Notice”). The Attribution 
+Notice shall, at minimum, include an active hyperlink to a URL designated by the Licensor
+for attribution (the “Attribution URL”), and up to three words such as or "powered by" 
+or "built with" as designated by the Licensor for attribution according to the Licensor's
+Attribution Policy.
+
+The Attribution Notice must be in a manner readily visible to users and must be at least 
+as conspicuous as other legal notices or credits in the same interface. If there are no 
+other notices or credits it is sufficient for the Attribution Notice to appear prominently 
+in the header or footer of the interface. The Attribution URL and related attribution terms 
+described herein are determined exclusively by All in Bits, Inc.
 
 This attribution requirement remains in force for seven (7) years from the date the Covered 
 Work is first publicly released under this License, or seven (7) years from the date you first 
@@ -40,7 +46,7 @@ If you convey, deploy or promote the Covered Work to any third party, or permit 
 party to deploy, operate or promote an Applicable Work, you must require that such third party, as 
 a condition of use, also preserve and maintain the same Attribution Notice and comply with the above 
 attribution requirement. The attribution requirement is a condition of the License that travels with 
-the Covered Work and must be honored by all downstream recipients for the duration specified above. 
+the Covered Work forever and must be honored by all downstream recipients for the duration specified above. 
 This clause constitutes an additional term permitted by Section 7 of this License and shall not be 
 construed as a further restriction on the exercise of rights granted under this License.
 
