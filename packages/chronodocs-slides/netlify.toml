@@ -1,5 +1,5 @@
 [build]
-publish = "./packages/chronodocs-slides/docs/.vitepress/dist"
+publish = "./packages/chronodocs-slides/dist"
 command = "pnpm -F ./packages/chronodocs-slides build"
 
 [build.environment]
