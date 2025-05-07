@@ -16,5 +16,3 @@ This library consists of 3 different pieces to make the whole vision come alive.
 ## Where to Start?
 
 It's almost always recommended to get started with [Sync](../sync/index.md) and try spinning up the container. This will allow you to begin building an application and listening for memos relevant to your individual application.
-
-However, if you need a more guided approach check out [the videos section](./videos.md).
