@@ -1,6 +1,6 @@
 [build]
-publish = "dist"
-command = "npm run build"
+publish = "./packages/chronodocs-slides/docs/.vitepress/dist"
+command = "pnpm -F ./packages/chronodocs-slides build"
 
 [build.environment]
 NODE_VERSION = "20"
