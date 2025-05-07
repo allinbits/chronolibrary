@@ -19,6 +19,7 @@ export default defineConfig({
     },
     nav: [
       { text: "Home", link: "/" },
+      { text: 'Overview', link: "https://preview.chronolibrary.com"},
       { text: "Getting Started", link: "/getting-started" },
       { text: "ChronoState", link: "/state" },
       { text: "ChronoSync", link: "/sync" },

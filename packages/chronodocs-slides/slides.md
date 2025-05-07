@@ -1,8 +1,7 @@
 ---
 theme: seriph
 title: Chrono Library
-info: |
-  Learn more at [ChronoLibrary](https://chronolibrary.com)
+info: Replicable application state for the clientside, everywhere. Built for AtomOne.
 class: text-center
 drawings:
   persist: false
@@ -18,7 +17,10 @@ Replicable application state for the clientside, everywhere.
   Use `Arrows` or `Spacebar` to Navigate
 
 <div class="abs-br m-6 text-xl">
-  <a href="https://github.com/allinbits/chronolibrary" target="_blank" class="slidev-icon-btn">
+  <a href="https://chronolibrary.com" target="_blank" class="slidev-icon-btn" title="Back to ChronoLibrary">
+    <carbon:exit />
+  </a>
+  <a href="https://github.com/allinbits/chronolibrary" target="_blank" class="slidev-icon-btn" title="GitHub">
     <carbon:logo-github />
   </a>
 </div>
@@ -35,6 +37,15 @@ Corporations often hide the true state of their applications, showing only what 
 This lack of transparency harms trust and innovation. 
 
 Chrono Library ensures full transparency by making application state fully reproducible and easily verifiable for all users, whether they are on blockchain or traditional platforms.
+
+<div class="abs-br m-6 text-xl">
+  <a href="https://chronolibrary.com" target="_blank" class="slidev-icon-btn" title="Back to ChronoLibrary">
+    <carbon:exit />
+  </a>
+  <a href="https://github.com/allinbits/chronolibrary" target="_blank" class="slidev-icon-btn" title="GitHub">
+    <carbon:logo-github />
+  </a>
+</div>
 
 ---
 transition: slide-left
@@ -53,6 +64,15 @@ transition: slide-left
 - ChronoState: Parses blockchain memos based on parameters like what a namespace starts with.
 - ChronoSync: Manages event storage and forwarding based on user needs.
 - ChronoConstructor (Optional): Helps users reconstruct state from memo instructions.
+
+<div class="abs-br m-6 text-xl">
+  <a href="https://chronolibrary.com" target="_blank" class="slidev-icon-btn" title="Back to ChronoLibrary">
+    <carbon:exit />
+  </a>
+  <a href="https://github.com/allinbits/chronolibrary" target="_blank" class="slidev-icon-btn" title="GitHub">
+    <carbon:logo-github />
+  </a>
+</div>
 
 ---
 transition: slide-left
@@ -74,6 +94,15 @@ In the `memo` field we would post something like this to the chain.
 todo-app.add("Take the garbage out")
 ```
 
+<div class="abs-br m-6 text-xl">
+  <a href="https://chronolibrary.com" target="_blank" class="slidev-icon-btn" title="Back to ChronoLibrary">
+    <carbon:exit />
+  </a>
+  <a href="https://github.com/allinbits/chronolibrary" target="_blank" class="slidev-icon-btn" title="GitHub">
+    <carbon:logo-github />
+  </a>
+</div>
+
 ---
 transition: slide-left
 ---
@@ -93,6 +122,15 @@ All transactions include an address of who sent it, and who is receiving it. Esp
 - Does the transaction meet the required minimum quantity for application parsing?
 
 All of these questions are optional, but help us filter down the ones our application cares about.
+
+<div class="abs-br m-6 text-xl">
+  <a href="https://chronolibrary.com" target="_blank" class="slidev-icon-btn" title="Back to ChronoLibrary">
+    <carbon:exit />
+  </a>
+  <a href="https://github.com/allinbits/chronolibrary" target="_blank" class="slidev-icon-btn" title="GitHub">
+    <carbon:logo-github />
+  </a>
+</div>
 
 ---
 transition: slide-left
@@ -124,6 +162,15 @@ state.onAction((action) => {
 });
 ```
 
+<div class="abs-br m-6 text-xl">
+  <a href="https://chronolibrary.com" target="_blank" class="slidev-icon-btn" title="Back to ChronoLibrary">
+    <carbon:exit />
+  </a>
+  <a href="https://github.com/allinbits/chronolibrary" target="_blank" class="slidev-icon-btn" title="GitHub">
+    <carbon:logo-github />
+  </a>
+</div>
+
 ---
 transition: slide-left
 ---
@@ -148,6 +195,15 @@ if (action.memo.startsWith('todo-app.add')) {
 
 When the application state is replicable it means you as a provider, or client are in control of how to utilize it.
 
+<div class="abs-br m-6 text-xl">
+  <a href="https://chronolibrary.com" target="_blank" class="slidev-icon-btn" title="Back to ChronoLibrary">
+    <carbon:exit />
+  </a>
+  <a href="https://github.com/allinbits/chronolibrary" target="_blank" class="slidev-icon-btn" title="GitHub">
+    <carbon:logo-github />
+  </a>
+</div>
+
 ---
 transition: slide-left
 ---
@@ -164,3 +220,12 @@ ChronoLibrary gives you the tools to rebuild social interactions in new ways.
 We can build it all, right on top of AtomOne. Limitations spark innovation.
 
 <a href="https://chronolibrary.com/" target="_blank">Learn more about ChronoLibrary</a>
+
+<div class="abs-br m-6 text-xl">
+  <a href="https://chronolibrary.com" target="_blank" class="slidev-icon-btn" title="Back to ChronoLibrary">
+    <carbon:exit />
+  </a>
+  <a href="https://github.com/allinbits/chronolibrary" target="_blank" class="slidev-icon-btn" title="GitHub">
+    <carbon:logo-github />
+  </a>
+</div>

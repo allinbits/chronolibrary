@@ -7,6 +7,9 @@ hero:
   tagline: "Reconstructable State Applications on AtomOne"
   actions:
     - theme: 'alt'
+      text: 'Overview'
+      link: 'https://preview.chronolibrary.com'
+    - theme: 'alt'
       text: "Getting Started"
       link: /getting-started
 
