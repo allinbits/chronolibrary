@@ -2,6 +2,9 @@
 
 Contains all repositories that have to do with working with Chrono event sourcing.
 
+- [Learn](https://preview.chronolibrary.com)
+- [Documentation](https://chronolibrary.com)
+
 ## ChronoState
 
 - [ChronoState](./packages/chronostate/README.md)
