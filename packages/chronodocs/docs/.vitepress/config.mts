@@ -9,7 +9,17 @@ export default defineConfig({
   ignoreDeadLinks: true, // Leave this on because the inherited docs will create broken links
   cleanUrls: false,
   lastUpdated: true,
-  head: [["link", { rel: "icon", href: "favicon.ico" }]],
+  head: [
+    ["link", { rel: "icon", href: "favicon.ico" }],
+    [
+      "script",
+      {
+        src: "https://cloud.umami.is/script.js",
+        defer: "true",
+        "data-website-id": "e2633864-4349-41fb-9ee6-a17729c0a722",
+      },
+    ],
+  ],
   themeConfig: {
     search: {
       provider: "local",
@@ -19,7 +29,7 @@ export default defineConfig({
     },
     nav: [
       { text: "Home", link: "/" },
-      { text: 'Overview', link: "https://preview.chronolibrary.com"},
+      { text: "Overview", link: "https://preview.chronolibrary.com" },
       { text: "Getting Started", link: "/getting-started" },
       { text: "ChronoState", link: "/state" },
       { text: "ChronoSync", link: "/sync" },
