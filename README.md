@@ -1,3 +1,7 @@
+<p align="center">
+  <img src="./packages/chronodocs/docs/public/logo-full.svg" />
+</p>
+
 # ChronoLibrary
 
 Contains all repositories that have to do with working with Chrono event sourcing.

@@ -10,7 +10,7 @@ export default defineConfig({
   cleanUrls: false,
   lastUpdated: true,
   head: [
-    ["link", { rel: "icon", href: "favicon.ico" }],
+    ["link", { rel: "icon", href: "favicon.svg" }],
     [
       "script",
       {
@@ -44,6 +44,5 @@ export default defineConfig({
     socialLinks: [
       { icon: "github", link: "https://github.com/allinbits/chronolibrary" },
     ],
-    logo: "/icon.svg",
   },
 });
