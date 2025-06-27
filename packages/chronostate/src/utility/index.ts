@@ -1,5 +1,5 @@
 import { createHash } from 'crypto';
-import { TransactionResponse } from '../types/transaction';
+import { Message2, TransactionResponse } from '../types/transaction';
 
 export namespace MemoExtractor {
   export interface TypeMap {}
@@ -110,8 +110,11 @@ export function findValidMemo(data: {
         return null;
     }
 
+    const isExec = data.txData.tx.body.messages[0]['@type'] === '/cosmos.authz.v1beta1.MsgExec';
+    const messages: Message2[] = isExec ?  data.txData.tx.body.messages[0].msgs : data.txData.tx.body.messages;
+
     if (data.sender || data.receiver) {
-        const result = data.txData.tx.body.messages.find(x => {
+        const result = messages.find(x => {
             if (x['@type'] !== '/cosmos.bank.v1beta1.MsgSend') {
                 return false;
             }
@@ -125,12 +128,12 @@ export function findValidMemo(data: {
 
         return {
             memo: decodeUnicode(data.txData.tx.body.memo),
-            messages: data.txData.tx.body.messages
+            messages: messages,
         }
     }
 
     return {
         memo: decodeUnicode(data.txData.tx.body.memo),
-        messages: data.txData.tx.body.messages
+        messages: messages,
     };
 }

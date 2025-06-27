@@ -1,4 +1,6 @@
-export const txResponse = {
+import { TransactionResponse } from "../src/types/transaction";
+
+export const txResponse: TransactionResponse = {
     tx: {
         body: {
             messages: [
@@ -12,6 +14,7 @@ export const txResponse = {
                             amount: '16500000',
                         },
                     ],
+                    msgs: []
                 },
             ],
             memo: '',
@@ -151,6 +154,7 @@ export const txResponse = {
                                 amount: '16500000',
                             },
                         ],
+                        msgs: []
                     },
                 ],
                 memo: '',

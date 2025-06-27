@@ -10,7 +10,7 @@ export interface Tx {
 }
 
 export interface Body {
-    messages: { '@type': string; [key: string]: any }[];
+    messages: Message2[];
     memo: string;
     timeout_height: string;
     extension_options: any[];
@@ -95,6 +95,7 @@ export interface Message2 {
     from_address: string;
     to_address: string;
     amount: Amount3[];
+    msgs: Message2[];
 }
 
 export interface Amount3 {
