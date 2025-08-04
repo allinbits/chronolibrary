@@ -18,7 +18,7 @@ services:
       - ./data:/app/data
     environment:
       API_URLS: "https://atomone-api.allinbits.com,https://atomone-rest.publicnode.com"
-      START_BLOCK: "2403341"
+      START_BLOCK: "4327701"
       BATCH_SIZE: 50
       PG_URI: postgres://username:password@postgres:5432/actions
       # MEMO_PREFIX: "0xTest"
