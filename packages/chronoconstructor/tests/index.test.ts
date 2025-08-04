@@ -1,18 +1,18 @@
-import { describe, it, expect, assert } from 'vitest';
+import { describe, it, expect } from 'vitest';
 import { extractMemoContent, extractNamespaceFunction, ChronoConstructor } from '../src/index';
 
 describe('extractMemoContent', () => {
     it('should return an array of arguments from a memo', async () => {
         const results = extractMemoContent('example.send("hello", "world", "!")', 'example.send');
 
-        expect(results[0] == 'hello');
-        expect(results[1] == 'world');
-        expect(results[2] == '!');
+        expect(results[0]).toBe('hello')
+        expect(results[1]).toBe('world');
+        expect(results[2]).toBe('!');
     });
 
     it('should return an empty array for no arguments', async () => {
         const results = extractMemoContent('example.send()', 'example.send');
-        expect(results.length <= 0);
+        expect(results.length).toBeLessThanOrEqual(0);
     });
 });
 
@@ -20,13 +20,13 @@ describe('extractNamespaceFunction', () => {
     it('should return the correct namespace and function name', async () => {
         const results = extractNamespaceFunction('example.send("hello", "world", "!")');
 
-        expect(results?.namespace === 'hello');
-        expect(results?.functionName === 'world');
+        expect(results?.namespace).toBe('example');
+        expect(results?.functionName).toBe('send');
     });
 
     it('should return the correct namespace and function name', async () => {
         const results = extractNamespaceFunction('example bad :(');
-        expect(typeof results === null);
+        expect(results).toBeNull();
     });
 });
 
@@ -54,7 +54,7 @@ describe('constructor', () => {
 
         await state.parse([{amounts: [{amount: '', denom: ''}], from_address: '', to_address: '', hash: '', height: '', memo: 'example.send("hello", "world)', timestamp: ''}], {})
         await state.parse([{amounts: [{amount: '', denom: ''}], from_address: '', to_address: '', hash: '', height: '', memo: 'example.test("hello", "world)', timestamp: ''}], {})
-        expect(didSendPass);
-        expect(didTestPass);
+        expect(didSendPass).toEqual(true);
+        expect(didTestPass).toEqual(true);
     })
 });

@@ -12,9 +12,8 @@ export interface Action {
 }
 
 export class ChronoConstructor<T = {}> {
-    lastBlock: string = '';
-
     private mappings: { [key: string]: (dataSet: T, action: Action) => Promise<void> | void } = {};
+    private lastBlock: number = -1;
 
     /**
      * When creating a new class, specify what your prefix / namespace is.
@@ -56,9 +55,12 @@ export class ChronoConstructor<T = {}> {
      * @memberof ChronoConstructor
      */
     async parse(actions: Action[], existingData: T): Promise<T> {
-        const dataClone = JSON.parse(JSON.stringify(existingData));
-
+        const dataClone = structuredClone(existingData);
         for (let action of actions) {
+            if (parseInt(action.height) < this.lastBlock) {
+                continue;
+            }
+
             const data = extractNamespaceFunction(action.memo);
             if (!data) {
                 console.warn(`Skipped Action ${action.hash}, invalid parameters`);
@@ -71,10 +73,7 @@ export class ChronoConstructor<T = {}> {
             }
 
             await this.mappings[data.functionName](dataClone, action);
-        }
-
-        if (actions.length >= 1) {
-            this.lastBlock = actions[actions.length - 1].height;
+            this.lastBlock = parseInt(action.height);
         }
 
         return dataClone;
@@ -96,6 +95,10 @@ export class ChronoConstructor<T = {}> {
      */
     async parseDirect(actions: Action[], existingData: T): Promise<void> {
         for (let action of actions) {
+            if (parseInt(action.height) < this.lastBlock) {
+                continue;
+            }
+
             const data = extractNamespaceFunction(action.memo);
             if (!data) {
                 console.warn(`Skipped Action ${action.hash}, invalid parameters`);
@@ -108,11 +111,18 @@ export class ChronoConstructor<T = {}> {
             }
 
             await this.mappings[data.functionName](existingData, action);
+            this.lastBlock = parseInt(action.height);
         }
+    }
 
-        if (actions.length >= 1) {
-            this.lastBlock = actions[actions.length - 1].height;
-        }
+    /**
+     * Returns the last block parsed
+     *
+     * @return {number} 
+     * @memberof ChronoConstructor
+     */
+    getLastBlock() {
+        return this.lastBlock;
     }
 }
 
