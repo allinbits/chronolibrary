@@ -6,7 +6,6 @@ const APIS = [
     `https://atomone-rest.publicnode.com`,
 ]
 
-
 describe('getCurrentBlockHeight', () => {
     it('should return the current block height from the first successful API', async () => {
         try {

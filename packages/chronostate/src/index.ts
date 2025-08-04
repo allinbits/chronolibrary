@@ -14,7 +14,7 @@ export class ChronoState {
     callbacksOffBlock: Array<{ id: number; cb: (block: string) => void }> = [];
     incremental = 1;
     batchSize = 10;
-    lastBlock = '';
+    startBlock = '';
     maxBlock: number = -1;
     prefixes: string[] = [];
 
@@ -26,7 +26,7 @@ export class ChronoState {
             this.prefixes = [];
         }
 
-        this.lastBlock = config.START_BLOCK;
+        this.startBlock = config.START_BLOCK;
         if (this.config.BATCH_SIZE) {
             this.batchSize = this.config.BATCH_SIZE;
         }
@@ -75,7 +75,7 @@ export class ChronoState {
             // If no endblock, use max block and keep processing
             if (!endBlock) {
                 await this.updateMaxBlock();
-                if (parseInt(this.lastBlock) >= this.maxBlock) {
+                if (parseInt(this.startBlock) >= this.maxBlock) {
                     if (this.config.LOG) {
                         console.log(`Max block reached, waiting for new blocks`);
                     }
@@ -89,7 +89,7 @@ export class ChronoState {
             } else {
                 this.maxBlock = parseInt(endBlock);
 
-                if (parseInt(this.lastBlock) >= this.maxBlock) {
+                if (parseInt(this.startBlock) >= this.maxBlock) {
                     if (this.config.LOG) {
                         console.log(`Max block reached, breaking out`);
                     }
@@ -99,7 +99,7 @@ export class ChronoState {
                 }
             }
 
-            for (let i = parseInt(this.lastBlock); i <= this.maxBlock; i += this.batchSize) {
+            for (let i = parseInt(this.startBlock); i <= this.maxBlock; i += this.batchSize) {
                 const batchEnd = Math.min(i + this.batchSize - 1, this.maxBlock);
 
                 if (!this.isParsing) {
@@ -141,7 +141,7 @@ export class ChronoState {
                     });
                 }
 
-                this.lastBlock = `${batchEnd}`;
+                this.startBlock = `${batchEnd + 1}`;
                 this.emitLastBlockCallbacks();
             }
         }
@@ -171,7 +171,7 @@ export class ChronoState {
 
     emitLastBlockCallbacks() {
         for (let callbackData of this.callbacksOffBlock) {
-            callbackData.cb(this.lastBlock);
+            callbackData.cb(this.startBlock);
         }
     }
 
