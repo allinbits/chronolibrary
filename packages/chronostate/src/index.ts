@@ -110,8 +110,9 @@ export class ChronoState {
                     break;
                 }
 
-                const blocks = await this.fetchBatchWithRetry(i, batchEnd);
                 const hexTxHashes: { hash: string; timestamp: string; height: string }[] = [];
+                
+                const blocks = await this.fetchBatchWithRetry(i, batchEnd);
                 for (let blockData of blocks) {
                     const height = blockData.block.header.height;
                     const txHashes = blockData.block.data.txs;
