@@ -12,9 +12,8 @@ export interface Action {
 }
 
 export class ChronoConstructor<T = {}> {
-    lastBlock: number = -1;
-
     private mappings: { [key: string]: (dataSet: T, action: Action) => Promise<void> | void } = {};
+    private lastBlock: number = -1;
 
     /**
      * When creating a new class, specify what your prefix / namespace is.
@@ -114,6 +113,16 @@ export class ChronoConstructor<T = {}> {
             await this.mappings[data.functionName](existingData, action);
             this.lastBlock = parseInt(action.height);
         }
+    }
+
+    /**
+     * Returns the last block parsed
+     *
+     * @return {number} 
+     * @memberof ChronoConstructor
+     */
+    getLastBlock() {
+        return this.lastBlock;
     }
 }
 
