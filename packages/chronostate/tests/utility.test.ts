@@ -43,4 +43,14 @@ describe('findValidMemo', () => {
         expect(memo && typeof idx === 'number' && memo.messages[idx].to_address == 'atone1h36dsx4pflgjmesct389faxpqtxczj3lqjmu9s')
         expect(memo?.memo == '');
     });
+
+    it('should find a valid memo based on from address', () => {
+        const memo = findValidMemo({ txData: txResponse, prefixes: [], sender: 'atone1g775g5u284q96zq8d0q948tj50l3luf7cwu250' });
+        expect(memo);
+    })
+
+    it('should find a valid memo based on to address', () => {
+        const memo = findValidMemo({ txData: txResponse, prefixes: [], receiver: 'atone1h36dsx4pflgjmesct389faxpqtxczj3lqjmu9s' });
+        expect(memo);
+    })
 })

@@ -113,23 +113,34 @@ export function findValidMemo(data: {
     const isExec = data.txData.tx.body.messages[0]['@type'] === '/cosmos.authz.v1beta1.MsgExec';
     const messages: Message[] = isExec ?  data.txData.tx.body.messages[0].msgs : data.txData.tx.body.messages;
 
-    if (data.sender || data.receiver) {
+    const isMatching = (option: 'from_address' | 'to_address', address: string) => {
         const result = messages.find(x => {
             if (x['@type'] !== '/cosmos.bank.v1beta1.MsgSend') {
                 return false;
             }
 
-            return x.from_address == data.sender || x.to_address == data.receiver;
+            return x[option] == address
         });
 
-        if (!result) {
-            return null;
-        }
+        return !!result;
+    }
 
+    if (data.sender && isMatching('from_address', data.sender)) {
         return {
             memo: decodeUnicode(data.txData.tx.body.memo),
             messages: messages,
         }
+    }
+
+    if (data.receiver && isMatching('to_address', data.receiver)) {
+        return {
+            memo: decodeUnicode(data.txData.tx.body.memo),
+            messages: messages,
+        }
+    }
+
+    if (data.receiver || data.sender) {
+        return null;
     }
 
     return {
