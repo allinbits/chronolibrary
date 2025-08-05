@@ -10,10 +10,10 @@
         "build": "tsc"
     },
     "dependencies": {
-        "@atomone/chronostate": "^2.2.0",
-        "@types/node": "^22.13.10",
-        "mongodb": "^6.15.0",
-        "tsx": "^4.19.3"
+        "@atomone/chronostate": "^2.2.4",
+        "@types/node": "^22.17.0",
+        "mongodb": "^6.18.0",
+        "tsx": "^4.20.3"
     },
     "prettier": {
         "tabWidth": 4,
@@ -22,6 +22,6 @@
         "printWidth": 120
     },
     "devDependencies": {
-        "typescript": "^5.8.2"
+        "typescript": "^5.9.2"
     }
 }
