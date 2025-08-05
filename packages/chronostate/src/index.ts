@@ -6,6 +6,8 @@ import { base64ToArrayBuffer, findValidMemo, sha256, toHex } from './utility';
 export * from './utility/index';
 export * from './types/index';
 
+const MAX_FETCH_MEMO_RETRIES = 5;
+
 export class ChronoState {
     isParsing = false;
     isStopped = false;
@@ -221,47 +223,51 @@ export class ChronoState {
         }
     }
 
-    private async fetchMemoWithRetry(txHash: string) {
-        while (true) {
-            try {
-                if (this.config.LOG) {
-                    console.log(`Fetching memo for tx: ${txHash}`);
-                }
+    private async fetchMemoWithRetry(txHash: string, retries = 0) {
+        if (retries >= MAX_FETCH_MEMO_RETRIES) {
+            return null;
+        }
 
-                const result = await Requests.getTransaction(this.config, txHash);
-                if (!result) {
-                    return null;
-                }
-
-                if (this.config.LOG) {
-                    console.log(`Successfully fetched tx: ${txHash}`);
-                }
-
-                const formattedMemo = findValidMemo({
-                    sender: this.config.SENDER,
-                    receiver: this.config.RECEIVER,
-                    prefixes: this.prefixes,
-                    txData: result,
-                });
-
-                if (!formattedMemo) {
-                    return null;
-                }
-
-                if (this.config.LOG) {
-                    console.log(`Successfully fetched memo for tx: ${txHash}`);
-                }
-
-                return {
-                    hash: txHash,
-                    ...formattedMemo,
-                };
-            } catch (error) {
-                console.warn(`Failed to fetch memo for tx: ${txHash}, retrying...`, error);
-                await new Promise((resolve: Function) => {
-                    setTimeout(resolve, 2000);
-                });
+        try {
+            if (this.config.LOG) {
+                console.log(`Fetching memo for tx: ${txHash}`);
             }
+
+            const result = await Requests.getTransaction(this.config, txHash);
+            if (!result) {
+                return null;
+            }
+
+            if (this.config.LOG) {
+                console.log(`Successfully fetched tx: ${txHash}`);
+            }
+
+            const formattedMemo = findValidMemo({
+                sender: this.config.SENDER,
+                receiver: this.config.RECEIVER,
+                prefixes: this.prefixes,
+                txData: result,
+            });
+
+            if (!formattedMemo) {
+                return null;
+            }
+
+            if (this.config.LOG) {
+                console.log(`Successfully fetched memo for tx: ${txHash}`);
+            }
+
+            return {
+                hash: txHash,
+                ...formattedMemo,
+            };
+        } catch (error) {
+            console.warn(`Failed to fetch memo for tx: ${txHash}, retrying...`, error);
+            await new Promise((resolve: Function) => {
+                setTimeout(resolve, 2000);
+            });
+
+            this.fetchMemoWithRetry(txHash, retries + 1);
         }
     }
 }
