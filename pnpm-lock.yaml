@@ -11,8 +11,8 @@ importers:
   packages/chronoconstructor:
     devDependencies:
       '@atomone/chronostate':
-        specifier: ^2.2.3
-        version: 2.2.3
+        specifier: ^2.2.4
+        version: 2.2.4
       '@types/node':
         specifier: ^22.13.10
         version: 22.15.33
@@ -301,8 +301,8 @@ packages:
   '@atomone/chronostate@2.2.2':
     resolution: {integrity: sha512-7/1HlTahEwILdg4j7Vs4rMinDZjjpxadr4BWVO63y2Z+MOWHj33l3H+seP0//T8B3UJJ0W8rT9SWcht4lwx6mA==}
 
-  '@atomone/chronostate@2.2.3':
-    resolution: {integrity: sha512-dW+UZwl2PSujbRaaQf4o0NLy0HB7SxfwDccPFtapTFT9oBsv94/j0dERFEJwzwO1KSKHigHRx1rRzSbIEi1JLA==}
+  '@atomone/chronostate@2.2.4':
+    resolution: {integrity: sha512-81J3LAKFYADINVqDatIXoUqOcTGPdAaYdl2XYd2anpkWBU0z5HM4Y3kEnSpif1A9QNieOv8WE5IBV25G7EO/Ww==}
 
   '@babel/code-frame@7.27.1':
     resolution: {integrity: sha512-cjQ7ZlQ0Mv3b47hABuTevyTuYN4i+loJKGeV9flcCgIK37cCXRh+L1bd3iBHlynerhQ7BhCkn2BPbQUL+rGqFg==}
@@ -5743,7 +5743,7 @@ snapshots:
 
   '@atomone/chronostate@2.2.2': {}
 
-  '@atomone/chronostate@2.2.3': {}
+  '@atomone/chronostate@2.2.4': {}
 
   '@babel/code-frame@7.27.1':
     dependencies:

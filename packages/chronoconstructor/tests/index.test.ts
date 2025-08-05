@@ -32,7 +32,7 @@ describe('extractNamespaceFunction', () => {
 
 describe('constructor', () => {
     it('should invoke a bound function call based on memo', async () => {
-        const state = new ChronoConstructor<{ amounts: []}>();
+        const state = new ChronoConstructor();
         let didSendPass = false;
         let didTestPass = false;
 
@@ -52,8 +52,42 @@ describe('constructor', () => {
             didTestPass = true;
         });
 
-        await state.parse([{amounts: [{amount: '', denom: ''}], from_address: '', to_address: '', hash: '', height: '', memo: 'example.send("hello", "world)', timestamp: ''}], {})
-        await state.parse([{amounts: [{amount: '', denom: ''}], from_address: '', to_address: '', hash: '', height: '', memo: 'example.test("hello", "world)', timestamp: ''}], {})
+        await state.parse([ 
+            { 
+                hash: '', 
+                height: '', 
+                memo: 'example.send("hello", "world)', 
+                timestamp: '',
+                messages: [
+                    {
+                        "@type": "/cosmos.bank.v1beta1.MsgSend",
+                        msgs: [],
+                        amount: [{ amount: '', denom: ''}],
+                        from_address: '', 
+                        to_address: ''
+                    }
+                ]   
+            }
+        ], {});
+
+        await state.parse([ 
+            { 
+                hash: '', 
+                height: '', 
+                memo: 'example.test("hello", "world)', 
+                timestamp: '',
+                messages: [
+                    {
+                        "@type": "/cosmos.bank.v1beta1.MsgSend",
+                        msgs: [],
+                        amount: [{ amount: '', denom: ''}],
+                        from_address: '', 
+                        to_address: ''
+                    }
+                ]   
+            }
+        ], {});
+
         expect(didSendPass).toEqual(true);
         expect(didTestPass).toEqual(true);
     })
