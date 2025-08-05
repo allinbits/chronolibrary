@@ -50,6 +50,10 @@ export class ChronoState {
 
     offAction(id: number) {
         const idx = this.callbacks.findIndex((x) => x.id === id);
+        if (idx === -1) {
+            return;
+        }
+
         this.callbacks.splice(idx, 1);
     }
 
@@ -61,6 +65,10 @@ export class ChronoState {
 
     offLastBlock(id: number) {
         const idx = this.callbacksOffBlock.findIndex((x) => x.id === id);
+        if (idx === -1) {
+            return;
+        }
+        
         this.callbacksOffBlock.splice(idx, 1);
     }
 
