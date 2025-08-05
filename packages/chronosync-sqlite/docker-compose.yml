@@ -9,10 +9,10 @@ services:
       - ./data:/app/data
     environment:
       API_URLS: "https://atomone-api.allinbits.com,https://atomone-rest.publicnode.com"
-      START_BLOCK: "2403341"
+      START_BLOCK: "4327701"
       BATCH_SIZE: 50
       # MEMO_PREFIX: "0xTest"
       # RECEIVER: process.env.RECEIVER,
       # SENDER: process.env.SENDER,
-      # LOG: process.env.LOG === 'true' ? true : false,
+      LOG: 'true'
     command: ["pnpm", "start"]
