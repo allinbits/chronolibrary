@@ -32,7 +32,7 @@ describe('extractNamespaceFunction', () => {
 
 describe('constructor', () => {
     it('should invoke a bound function call based on memo', async () => {
-        const state = new ChronoConstructor();
+        const state = new ChronoConstructor<{ amounts: []}>();
         let didSendPass = false;
         let didTestPass = false;
 

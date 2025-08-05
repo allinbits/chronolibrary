@@ -10,7 +10,7 @@ export interface Tx {
 }
 
 export interface Body {
-    messages: Message2[];
+    messages: Message[];
     memo: string;
     timeout_height: string;
     extension_options: any[];
@@ -83,19 +83,11 @@ export interface Tx2 {
 }
 
 export interface Body2 {
-    messages: Message2[];
+    messages: Message[];
     memo: string;
     timeout_height: string;
     extension_options: any[];
     non_critical_extension_options: any[];
-}
-
-export interface Message2 {
-    '@type': string;
-    from_address: string;
-    to_address: string;
-    amount: Amount3[];
-    msgs: Message2[];
 }
 
 export interface Amount3 {
@@ -149,4 +141,16 @@ export interface Attribute {
     key: string;
     value: string;
     index: boolean;
+}
+
+export interface Message {
+    "@type": string,
+    grantee?: string,
+    msgs: Array<Message>
+    from_address?: string,
+    to_address?: string,
+    amount?: Array<{
+        denom: string,
+        amount: string,
+    }>
 }
