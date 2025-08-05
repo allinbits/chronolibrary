@@ -1,5 +1,5 @@
 import { createHash } from 'crypto';
-import { Message2, TransactionResponse } from '../types/transaction';
+import { Message, TransactionResponse } from '../types/transaction';
 
 export namespace MemoExtractor {
   export interface TypeMap {}
@@ -111,7 +111,7 @@ export function findValidMemo(data: {
     }
 
     const isExec = data.txData.tx.body.messages[0]['@type'] === '/cosmos.authz.v1beta1.MsgExec';
-    const messages: Message2[] = isExec ?  data.txData.tx.body.messages[0].msgs : data.txData.tx.body.messages;
+    const messages: Message[] = isExec ?  data.txData.tx.body.messages[0].msgs : data.txData.tx.body.messages;
 
     if (data.sender || data.receiver) {
         const result = messages.find(x => {

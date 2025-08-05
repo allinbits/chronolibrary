@@ -1,15 +1,4 @@
-export interface Action {
-    hash: string;
-    height: string;
-    timestamp: string;
-    from_address: string;
-    to_address: string;
-    memo: string;
-    amounts: Array<{
-        denom: string;
-        amount: string;
-    }>;
-}
+import type { Action } from '@atomone/chronostate';
 
 export class ChronoConstructor<T = {}> {
     private mappings: { [key: string]: (dataSet: T, action: Action) => Promise<void> | void } = {};
