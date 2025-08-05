@@ -1,19 +1,30 @@
 import { createHash } from 'crypto';
 import { Message, TransactionResponse } from '../types/transaction';
 
+const base64Regex = /^([0-9a-zA-Z+/]{4})*(([0-9a-zA-Z+/]{2}==)|([0-9a-zA-Z+/]{3}=))?$/;
+
 export namespace MemoExtractor {
   export interface TypeMap {}
 }
 
 export function base64ToArrayBuffer(base64: string) {
-    const binary_string = atob ? atob(base64) : window.atob(base64);
-    const len = binary_string.length;
-    const bytes = new Uint8Array(len);
-    for (let i = 0; i < len; i++) {
-        bytes[i] = binary_string.charCodeAt(i);
+    if (!base64Regex.test(base64)) {
+        throw new Error('Invalid base64 string provided');
     }
 
-    return bytes;
+    try {
+        const binary_string = Buffer.from(base64, 'base64').toString('binary');
+        const len = binary_string.length;
+        const bytes = new Uint8Array(len);
+        for (let i = 0; i < len; i++) {
+            bytes[i] = binary_string.charCodeAt(i);
+        }
+    
+        return bytes;
+    } catch(e) {
+        console.error("Invalid base64 string provided");
+        throw e;
+    }
 }
 
 export function toHex(data: Uint8Array): string {

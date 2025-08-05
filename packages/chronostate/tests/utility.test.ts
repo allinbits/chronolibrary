@@ -8,6 +8,11 @@ describe('base64ToArrayBuffer', () => {
         const expected = new Uint8Array([72, 101, 108, 108, 111]);
         expect(base64ToArrayBuffer(base64)).toEqual(expected);
     });
+
+    it('should throw an error for invalid base64 input', () => {
+        const invalidBase64 = 'SGVsbG8=='; // Invalid padding
+        expect(() => base64ToArrayBuffer(invalidBase64)).toThrowError();
+    });
 });
 
 describe('toHex', () => {
