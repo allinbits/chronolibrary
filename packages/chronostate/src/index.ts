@@ -127,8 +127,17 @@ export class ChronoState {
                     const timestamp = blockData.block.header.time;
 
                     for (let encodedTxHash of txHashes) {
+                        let hashBuffer: Uint8Array<ArrayBuffer>;
+
+                        try {
+                            hashBuffer = base64ToArrayBuffer(encodedTxHash)
+                        } catch(e) {
+                            console.error(e);
+                            continue;
+                        }
+                        
                         hexTxHashes.push({
-                            hash: toHex(sha256(base64ToArrayBuffer(encodedTxHash))),
+                            hash: toHex(sha256(hashBuffer)),
                             timestamp,
                             height,
                         });
