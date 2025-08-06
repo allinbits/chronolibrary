@@ -39,7 +39,7 @@ export async function initDatabase() {
 export function useDatabase() {
     return {
         action: {
-            insert: async (actionData: Action) => {
+            insert: async (actionData: Action, formattedMessages: string) => {
                 return await pool.query(
                     `INSERT INTO actions (hash, height, timestamp, memo, messages) 
                     VALUES ($1, $2, $3, $4, $5)
@@ -49,7 +49,7 @@ export function useDatabase() {
                         actionData.height,
                         actionData.timestamp,
                         actionData.memo,
-                        JSON.stringify(actionData.messages),
+                        formattedMessages,
                     ]
                 );
             },
