@@ -16,7 +16,18 @@ async function handleAction(action: Action) {
         return;
     }
 
-    await db.action.insert(action);
+    let formattedMessages: string | undefined;
+
+    try {
+        formattedMessages = JSON.stringify(action.messages);
+    } catch(err) {
+        console.error(err);
+    }
+
+    if (formattedMessages) {
+        await db.action.insert(action, formattedMessages);
+    }
+    
     lastAction = action;
 }
 
