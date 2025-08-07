@@ -1,4 +1,3 @@
-import { Config } from '../types';
 import { BlockResponse } from '../types/block';
 import { TransactionResponse } from '../types/transaction';
 
@@ -50,12 +49,12 @@ export async function getBlockByHeight(apiUrls: string[], blockHeight: number, r
     return getBlockByHeight(apiUrls, blockHeight, retries + 1);
 }
 
-export async function getTransaction(config: Config, txHash: string, retries = 0) {
+export async function getTransaction(apiUrls: string[], txHash: string, retries = 0) {
     if (retries >= MAX_FETCH_RETRIES) {
         throw new Error(`Failed to fetch current block height, all API urls have failed. Retry ${retries}`);
     }
 
-    for (let api of config.API_URLS) {
+    for (let api of apiUrls) {
         const response = await fetch(`${api}/cosmos/tx/v1beta1/txs/${txHash.toUpperCase()}`).catch((err) => {
             console.error(err);
             return undefined;
@@ -70,5 +69,5 @@ export async function getTransaction(config: Config, txHash: string, retries = 0
     }
 
     retries += 1;
-    return getTransaction(config, txHash, retries + 1);
+    return getTransaction(apiUrls, txHash, retries + 1);
 }
