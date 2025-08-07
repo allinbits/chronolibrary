@@ -47,6 +47,10 @@ export function decodeUnicode(str: string) {
  * Input should be the full memo. ie. `example.send("blah","blah","blah")`
  * commandPrefix should be the full command name. ie `example.Send`
  *
+ * Arguments are extracted as long as they are surrounded by `double quotes`.
+ * 
+ * Example: `"blah", "blah", "blah"`
+ * 
  * @export
  * @param {string} memo
  * @param {string} commandPrefix
@@ -79,9 +83,7 @@ export function extractMemoContent<K extends keyof MemoExtractor.TypeMap>(memo: 
             }
         }
 
-        if (currentItem.trim()) {
-            result.push(currentItem);
-        }
+        result.push(currentItem);
 
         return result.map((item) => {
             item = item.trim();
