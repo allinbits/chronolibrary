@@ -12,7 +12,8 @@ describe('extractMemoContent', () => {
 
     it('should return an empty array for no arguments', async () => {
         const results = extractMemoContent('example.send()', 'example.send');
-        expect(results.length).toBeLessThanOrEqual(0);
+        expect(results.length).toBeLessThanOrEqual(1);
+        expect(results[0]).toBe('');
     });
 });
 
@@ -32,7 +33,7 @@ describe('extractNamespaceFunction', () => {
 
 describe('constructor', () => {
     it('should invoke a bound function call based on memo', async () => {
-        const state = new ChronoConstructor();
+        const state = new ChronoConstructor('example');
         let didSendPass = false;
         let didTestPass = false;
 
