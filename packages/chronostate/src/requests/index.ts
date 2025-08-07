@@ -3,13 +3,13 @@ import { TransactionResponse } from '../types/transaction';
 
 const MAX_FETCH_RETRIES = 3;
 
-export async function getCurrentBlockHeight(apiUrls: string[], retries = 0) {
+async function handleFetchRequest<T>(apiURLs: string[], path: string, retries = 0) {
     if (retries >= MAX_FETCH_RETRIES) {
         throw new Error(`Failed to fetch current block height, all API urls have failed. Retry ${retries}`);
     }
 
-    for (let api of apiUrls) {
-        const response = await fetch(`${api}/cosmos/base/tendermint/v1beta1/blocks/latest`).catch((err) => {
+    for (let api of apiURLs) {
+        const response = await fetch(`${api}${path}`).catch((err) => {
             console.error(err);
             return undefined;
         });
@@ -19,55 +19,26 @@ export async function getCurrentBlockHeight(apiUrls: string[], retries = 0) {
             continue;
         }
 
-        const data = (await response.json()) as { block: { header: { height: string } } };
-        return data.block.header.height;
+        return response.json() as T;
     }
 
     retries += 1;
-    return getCurrentBlockHeight(apiUrls, retries + 1);
+    return handleFetchRequest(apiURLs, path, retries + 1);
 }
 
-export async function getBlockByHeight(apiUrls: string[], blockHeight: number, retries = 0) {
-    if (retries >= MAX_FETCH_RETRIES) {
-        throw new Error(`Failed to fetch block height ${blockHeight}, all API urls have failed. Retry ${retries}`);
+export async function getCurrentBlockHeight(apiURLs: string[]) {
+    const result = await handleFetchRequest<{ block: { header: { height: string } } }>(apiURLs, '/cosmos/base/tendermint/v1beta1/blocks/latest');
+    if (!result) {
+        return undefined;
     }
 
-    for (let api of apiUrls) {
-        const response = await fetch(`${api}/cosmos/base/tendermint/v1beta1/blocks/${blockHeight}`).catch((err) => {
-            console.error(err);
-            return undefined;
-        });
-
-        if (!response || response.status !== 200) {
-            console.warn(`Failed Request | Code ${response?.status} | ${response?.statusText}`)
-            continue;
-        }
-
-        return (await response.json()) as BlockResponse;
-    }
-
-    return getBlockByHeight(apiUrls, blockHeight, retries + 1);
+    return result.block.header.height;
 }
 
-export async function getTransaction(apiUrls: string[], txHash: string, retries = 0) {
-    if (retries >= MAX_FETCH_RETRIES) {
-        throw new Error(`Failed to fetch current block height, all API urls have failed. Retry ${retries}`);
-    }
+export async function getBlockByHeight(apiURLs: string[], blockHeight: number, retries = 0) {
+    return handleFetchRequest<BlockResponse>(apiURLs, `/cosmos/base/tendermint/v1beta1/blocks/${blockHeight}`)
+}
 
-    for (let api of apiUrls) {
-        const response = await fetch(`${api}/cosmos/tx/v1beta1/txs/${txHash.toUpperCase()}`).catch((err) => {
-            console.error(err);
-            return undefined;
-        });
-
-        if (!response || response.status !== 200) {
-            console.warn(`Failed Request | Code ${response?.status} | ${response?.statusText}`)
-            continue;
-        }
-
-        return (await response.json()) as TransactionResponse;
-    }
-
-    retries += 1;
-    return getTransaction(apiUrls, txHash, retries + 1);
+export async function getTransaction(apiURLs: string[], txHash: string, retries = 0) {
+    return handleFetchRequest<TransactionResponse>(apiURLs, `/cosmos/tx/v1beta1/txs/${txHash.toUpperCase()}`)
 }
