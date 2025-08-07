@@ -1,4 +1,4 @@
-import type { Action } from '@atomone/chronostate';
+import { type Action } from '@atomone/chronostate';
 
 export class ChronoConstructor<T = {}> {
     private mappings: { [key: string]: (dataSet: T, action: Action) => Promise<void> | void } = {};
@@ -144,6 +144,10 @@ export function extractNamespaceFunction(memo: string) {
 /**
  * Input should be the full memo. ie. `example.send("blah","blah","blah")`
  * commandPrefix should be the full command name. ie `example.Send`
+ * 
+ * Arguments are extracted as long as they are surrounded by `double quotes`.
+ * 
+ * Example: `"blah", "blah", "blah"`
  *
  * @export
  * @param {string} memo
@@ -177,9 +181,7 @@ export function extractMemoContent(memo: string, commandPrefix: string) {
             }
         }
 
-        if (currentItem.trim()) {
-            result.push(currentItem);
-        }
+        result.push(currentItem);
 
         return result.map((item) => {
             item = item.trim();
