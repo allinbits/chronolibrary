@@ -2,6 +2,8 @@ import { Config } from '../types';
 import { BlockResponse } from '../types/block';
 import { TransactionResponse } from '../types/transaction';
 
+
+
 const MAX_FETCH_RETRIES = 3;
 
 export async function getCurrentBlockHeight(apiUrls: string[]) {
@@ -44,8 +46,8 @@ export async function getBlockByHeight(apiUrls: string[], blockHeight: number, r
     return getBlockByHeight(apiUrls, blockHeight, retries + 1);
 }
 
-export async function getTransaction(config: Config, txHash: string) {
-    for (let api of config.API_URLS) {
+export async function getTransaction(apiUrls: string[], txHash: string) {
+    for (let api of apiUrls) {
         const txResponse = await fetch(`${api}/cosmos/tx/v1beta1/txs/${txHash.toUpperCase()}`);
 
         if (!txResponse.ok) {

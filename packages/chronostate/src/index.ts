@@ -73,6 +73,10 @@ export class ChronoState {
     }
 
     async start(endBlock: string | null = null) {
+        if (this.config.API_URLS.length <= 0) {
+            throw new Error('ChronoState failed to start, no APIs were provided');
+        }
+
         if (this.isParsing) {
             throw new Error('ChronoState is already parsing blocks.');
         }
@@ -228,7 +232,7 @@ export class ChronoState {
                     console.log(`Fetching memo for tx: ${txHash}`);
                 }
 
-                const result = await Requests.getTransaction(this.config, txHash);
+                const result = await Requests.getTransaction(this.config.API_URLS, txHash);
                 if (!result) {
                     return null;
                 }
