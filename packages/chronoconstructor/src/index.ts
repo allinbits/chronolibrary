@@ -3,6 +3,7 @@ import { type Action } from '@atomone/chronostate';
 export class ChronoConstructor<T = {}> {
     private mappings: { [key: string]: (dataSet: T, action: Action) => Promise<void> | void } = {};
     private lastBlock: number = -1;
+    private namespace: string;
 
     /**
      * When creating a new class, specify what your prefix / namespace is.
@@ -12,7 +13,9 @@ export class ChronoConstructor<T = {}> {
      * @param {string} memoPrefix
      * @memberof ChronoConstructor
      */
-    constructor() {}
+    constructor(namespace: string) {
+        this.namespace = namespace;
+    }
 
     /**
      * Bind a specific action under the `a` query to a specific function.
@@ -51,8 +54,8 @@ export class ChronoConstructor<T = {}> {
             }
 
             const data = extractNamespaceFunction(action.memo);
-            if (!data) {
-                console.warn(`Skipped Action ${action.hash}, invalid parameters`);
+            if (data?.namespace !== this.namespace) {
+                console.warn(`Skipped Action ${action.hash}, invalid namespace or parameters`);
                 continue;
             }
 
@@ -89,8 +92,8 @@ export class ChronoConstructor<T = {}> {
             }
 
             const data = extractNamespaceFunction(action.memo);
-            if (!data) {
-                console.warn(`Skipped Action ${action.hash}, invalid parameters`);
+            if (data?.namespace !== this.namespace) {
+                console.warn(`Skipped Action ${action.hash}, invalid namespace or parameters`);
                 continue;
             }
 
