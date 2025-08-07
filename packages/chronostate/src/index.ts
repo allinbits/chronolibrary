@@ -177,6 +177,10 @@ export class ChronoState {
     private async updateMaxBlock() {
         try {
             const response = await Requests.getCurrentBlockHeight(this.config.API_URLS);
+            if (!response) {
+                throw new Error('Failed to fetch head block from chain');
+            }
+
             this.maxBlock = parseInt(response);
         } catch (err) {
             console.error(err);
