@@ -30,8 +30,8 @@ function handleAction(action: Action) {
     lastAction = action;
 }
 
-function handleLastBlock(block: String) {
-    db.lastBlock.update.run(block as string, 1);
+function handleLastBlock(block: string) {
+    db.lastBlock.update.run(block);
     console.log(`Updated Block | ${block}`);
 }
 
