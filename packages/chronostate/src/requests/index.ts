@@ -1,3 +1,4 @@
+import { Config } from '../types';
 import { BlockResponse } from '../types/block';
 import { TransactionResponse } from '../types/transaction';
 
@@ -26,19 +27,25 @@ async function handleFetchRequest<T>(apiURLs: string[], path: string, retries = 
     return handleFetchRequest(apiURLs, path, retries + 1);
 }
 
-export async function getCurrentBlockHeight(apiURLs: string[]) {
-    const result = await handleFetchRequest<{ block: { header: { height: string } } }>(apiURLs, '/cosmos/base/tendermint/v1beta1/blocks/latest');
-    if (!result) {
-        return undefined;
-    }
+export async function getCurrentBlockHeight(config: Config) {
+    const result = await handleFetchRequest<{ block: { header: { height: string } } }>(
+        config.API_URLS, 
+        `${config.BLOCKS_PATH}/latest`
+    );
 
-    return result.block.header.height;
+    return result?.block.header.height ?? undefined;
 }
 
-export async function getBlockByHeight(apiURLs: string[], blockHeight: number, retries = 0) {
-    return handleFetchRequest<BlockResponse>(apiURLs, `/cosmos/base/tendermint/v1beta1/blocks/${blockHeight}`)
+export async function getBlockByHeight(config: Config, blockHeight: number) {
+    return handleFetchRequest<BlockResponse>(
+        config.API_URLS,
+        `${config.BLOCKS_PATH}/${blockHeight}`
+    );
 }
 
-export async function getTransaction(apiURLs: string[], txHash: string, retries = 0) {
-    return handleFetchRequest<TransactionResponse>(apiURLs, `/cosmos/tx/v1beta1/txs/${txHash.toUpperCase()}`)
+export async function getTransaction(config: Config, txHash: string) {
+    return handleFetchRequest<TransactionResponse>(
+        config.API_URLS,
+        `${config.TRANSACTION_PATH}/${txHash.toUpperCase()}`
+    );
 }

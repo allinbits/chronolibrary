@@ -1,4 +1,32 @@
+import { generateConfigDefaults } from "../src";
 import { TransactionResponse } from "../src/types/transaction";
+
+const APIS = [
+    'https://atomone-api.allinbits.com',
+    `https://atomone-rest.publicnode.com`,
+]
+
+export const BAD_CONFIG = generateConfigDefaults({ 
+    START_BLOCK: '-1',
+    API_URLS: [
+        'https://fake-api.allinbits.com',
+    ],
+});
+
+export const MIXED_CONFIG = generateConfigDefaults({ 
+    START_BLOCK: '-1',
+    API_URLS: [
+        'https://fake-api.allinbits.com',
+        ...APIS
+    ],
+});
+
+export const GOOD_CONFIG = generateConfigDefaults({ 
+    START_BLOCK: '-1',
+    API_URLS: [
+        ...APIS
+    ],
+});
 
 export const txResponse: TransactionResponse = {
     tx: {

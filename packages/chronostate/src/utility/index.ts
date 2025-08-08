@@ -1,10 +1,31 @@
 import { createHash } from 'crypto';
 import { Message, TransactionResponse } from '../types/transaction';
+import { Config } from '../types';
 
 const base64Regex = /^([0-9a-zA-Z+/]{4})*(([0-9a-zA-Z+/]{2}==)|([0-9a-zA-Z+/]{3}=))?$/;
 
 export namespace MemoExtractor {
   export interface TypeMap {}
+}
+
+export function generateConfigDefaults(config: Config) {
+    if (!config.BLOCKS_PATH) {
+        config.BLOCKS_PATH = '/cosmos/base/tendermint/v1beta1/blocks';
+    }
+
+    if (!config.TRANSACTION_PATH) {
+        config.TRANSACTION_PATH = '/cosmos/tx/v1beta1/txs';
+    }
+
+    if (!config.COSMOS_BANK_SEND_MSG_TYPE) {
+        config.COSMOS_BANK_SEND_MSG_TYPE = '/cosmos.bank.v1beta1.MsgSend';
+    }
+
+    if (!config.COSMOS_EXEC_MSG_TYPE) {
+        config.COSMOS_EXEC_MSG_TYPE = '/cosmos.authz.v1beta1.MsgExec';
+    }
+
+    return config;
 }
 
 export function base64ToArrayBuffer(base64: string) {
@@ -98,8 +119,7 @@ export function extractMemoContent<K extends keyof MemoExtractor.TypeMap>(memo: 
 }
 
 export function findValidMemo(data: {
-    sender?: string;
-    receiver?: string;
+    config: Config;
     prefixes: string[];
     txData: TransactionResponse;
 }) {
@@ -123,12 +143,12 @@ export function findValidMemo(data: {
         return null;
     }
 
-    const isExec = data.txData.tx.body.messages[0]['@type'] === '/cosmos.authz.v1beta1.MsgExec';
+    const isExec = data.txData.tx.body.messages[0]['@type'] === data.config.COSMOS_EXEC_MSG_TYPE;
     const messages: Message[] = isExec ?  data.txData.tx.body.messages[0].msgs : data.txData.tx.body.messages;
 
     const isMatching = (option: 'from_address' | 'to_address', address: string) => {
         const result = messages.find(x => {
-            if (x['@type'] !== '/cosmos.bank.v1beta1.MsgSend') {
+            if (x['@type'] !== data.config.COSMOS_BANK_SEND_MSG_TYPE) {
                 return false;
             }
 
@@ -138,21 +158,21 @@ export function findValidMemo(data: {
         return !!result;
     }
 
-    if (data.sender && isMatching('from_address', data.sender)) {
+    if (data.config.SENDER && isMatching('from_address', data.config.SENDER)) {
         return {
             memo: decodeUnicode(data.txData.tx.body.memo),
             messages: messages,
         }
     }
 
-    if (data.receiver && isMatching('to_address', data.receiver)) {
+    if (data.config.RECEIVER && isMatching('to_address', data.config.RECEIVER)) {
         return {
             memo: decodeUnicode(data.txData.tx.body.memo),
             messages: messages,
         }
     }
 
-    if (data.receiver || data.sender) {
+    if (data.config.RECEIVER || data.config.SENDER) {
         return null;
     }
 

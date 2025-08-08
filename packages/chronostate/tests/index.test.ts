@@ -1,11 +1,7 @@
 import { assert, test, describe, it } from 'vitest';
 import { ChronoState } from '../src';
 import { getCurrentBlockHeight } from '../src/requests';
-
-const APIS = [
-    'https://atomone-api.allinbits.com',
-    `https://atomone-rest.publicnode.com`,
-]
+import { GOOD_CONFIG } from './data';
 
 test('test callbacks', async () => {
     const state = new ChronoState({
@@ -36,10 +32,10 @@ describe('chronostate', async () => {
     const max_block_batch_count = 5;
 
     it('process at least 5 blocks', async (test) => {
-        const height = await getCurrentBlockHeight(APIS);
+        const height = await getCurrentBlockHeight(GOOD_CONFIG);
         let lastBlock = `${parseInt(height) - 100}`
 
-        const chronoState = new ChronoState({ API_URLS: APIS, START_BLOCK: lastBlock, BATCH_SIZE: 5, LOG: true });
+        const chronoState = new ChronoState({ API_URLS: GOOD_CONFIG.API_URLS, START_BLOCK: lastBlock, BATCH_SIZE: 5, LOG: true });
         let blockBatchCount = 0;
 
         chronoState.onLastBlock((block) => {

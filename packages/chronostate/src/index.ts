@@ -1,7 +1,7 @@
 import * as Requests from './requests/index';
 import { Action, Config } from './types';
 import { BlockResponse } from './types/block';
-import { base64ToArrayBuffer, findValidMemo, sha256, toHex } from './utility';
+import { base64ToArrayBuffer, findValidMemo, generateConfigDefaults, sha256, toHex } from './utility';
 
 export * from './utility/index';
 export * from './types/index';
@@ -19,7 +19,7 @@ export class ChronoState {
     prefixes: string[] = [];
 
     constructor(config: Config) {
-        this.config = config;
+        this.config = generateConfigDefaults(config);
         if (this.config.MEMO_PREFIX) {
             this.prefixes = this.config.MEMO_PREFIX.split(',');
         } else {
@@ -30,6 +30,7 @@ export class ChronoState {
         if (this.config.BATCH_SIZE) {
             this.batchSize = this.config.BATCH_SIZE;
         }
+
     }
 
     setBlockMin(value: string) {
@@ -176,7 +177,7 @@ export class ChronoState {
 
     private async updateMaxBlock() {
         try {
-            const response = await Requests.getCurrentBlockHeight(this.config.API_URLS);
+            const response = await Requests.getCurrentBlockHeight(this.config);
             if (!response) {
                 throw new Error('Failed to fetch head block from chain');
             }
@@ -209,7 +210,7 @@ export class ChronoState {
 
                 const blockPromises: Promise<BlockResponse>[] = [];
                 for (let j = start; j <= end; j++) {
-                    blockPromises.push(Requests.getBlockByHeight(this.config.API_URLS, j));
+                    blockPromises.push(Requests.getBlockByHeight(this.config, j));
                 }
 
                 const blocks = await Promise.all(blockPromises);
@@ -236,7 +237,7 @@ export class ChronoState {
                     console.log(`Fetching memo for tx: ${txHash}`);
                 }
 
-                const result = await Requests.getTransaction(this.config.API_URLS, txHash);
+                const result = await Requests.getTransaction(this.config, txHash);
                 if (!result) {
                     return null;
                 }
@@ -246,8 +247,7 @@ export class ChronoState {
                 }
 
                 const formattedMemo = findValidMemo({
-                    sender: this.config.SENDER,
-                    receiver: this.config.RECEIVER,
+                    config: this.config,
                     prefixes: this.prefixes,
                     txData: result,
                 });
