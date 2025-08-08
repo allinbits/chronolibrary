@@ -1,6 +1,6 @@
 import { describe, it, expect } from 'vitest';
 import { base64ToArrayBuffer, toHex, sha256, decodeUnicode, findValidMemo } from '../src/utility/index';
-import { txResponse } from './data';
+import { GOOD_CONFIG, txResponse } from './data';
 
 describe('base64ToArrayBuffer', () => {
     it('should convert base64 to Uint8Array', () => {
@@ -39,7 +39,7 @@ describe('decodeUnicode', () => {
 
 describe('findValidMemo', () => {
     it('should find a valid memo', () => {
-        const memo = findValidMemo({ txData: txResponse, prefixes: [] });
+        const memo = findValidMemo({ txData: txResponse, config: GOOD_CONFIG, prefixes: [] });
         expect(memo);
 
         const idx = memo?.messages.findIndex(x => x['@type'] === '/cosmos.bank.v1beta1.MsgSend');
@@ -50,12 +50,21 @@ describe('findValidMemo', () => {
     });
 
     it('should find a valid memo based on from address', () => {
-        const memo = findValidMemo({ txData: txResponse, prefixes: [], sender: 'atone1g775g5u284q96zq8d0q948tj50l3luf7cwu250' });
+        const memo = findValidMemo({ txData: txResponse, prefixes: [], 
+            config: {
+                ...GOOD_CONFIG,
+                SENDER: 'atone1g775g5u284q96zq8d0q948tj50l3luf7cwu250'
+            }
+        });
         expect(memo);
     })
 
     it('should find a valid memo based on to address', () => {
-        const memo = findValidMemo({ txData: txResponse, prefixes: [], receiver: 'atone1h36dsx4pflgjmesct389faxpqtxczj3lqjmu9s' });
+        const memo = findValidMemo({ txData: txResponse, prefixes: [], config: {
+                ...GOOD_CONFIG,
+                RECEIVER: 'atone1h36dsx4pflgjmesct389faxpqtxczj3lqjmu9s',
+            }
+        });
         expect(memo);
     })
 })

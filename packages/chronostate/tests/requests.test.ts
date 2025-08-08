@@ -1,62 +1,44 @@
 import { describe, it, expect, assert } from 'vitest';
 import { getBlockByHeight, getCurrentBlockHeight } from '../src/requests';
-
-const APIS = [
-    'https://atomone-api.allinbits.com',
-    `https://atomone-rest.publicnode.com`,
-]
+import { BAD_CONFIG, GOOD_CONFIG, MIXED_CONFIG } from './data';
 
 describe('getCurrentBlockHeight', () => {
     it('should return the current block height from the first successful API', async () => {
-        try {
-            const height = await getCurrentBlockHeight(APIS);
-            if (!height) {
-                assert.fail('Failed to fetch block height');
-            }
-
-            assert(parseInt(height) >= 1);
-        } catch (err) {
-            console.error(err);
-            assert.fail('Failed to fetch block height')
-        }
-    });
-
-    it('should try multiple APIs and return the first successful block height', async () => {
-        try {
-            const height = await getCurrentBlockHeight([
-                'https://fake-api.allinbits.com',
-                ...APIS,
-            ]);
-
-            if (!height) {
-                assert.fail('Failed to fetch block height');
-            }
-
-            assert(parseInt(height) >= 1);
-        } catch (err) {
-            console.error(err);
-            assert.fail('Failed to fetch block height')
-        }
-    });
-
-    it('should throw an error if all APIs fail', async () => {
-        await expect(getCurrentBlockHeight(['https://bad.api'])).rejects.toThrow();
-    });
-});
-
-describe('getBlockByHeight', () => {
-    it('it should fetch latest data from latest block', async () => {
-        const height = await getCurrentBlockHeight(APIS);
+        const height = await getCurrentBlockHeight(GOOD_CONFIG);
         if (!height) {
             assert.fail('Failed to fetch block height');
         }
 
         assert(parseInt(height) >= 1);
-        const response = await getBlockByHeight(APIS, parseInt(height));
+    });
+
+    it('should try multiple APIs and return the first successful block height', async () => {
+        const height = await getCurrentBlockHeight(MIXED_CONFIG);
+        if (!height) {
+            assert.fail('Failed to fetch block height');
+        }
+
+        assert(parseInt(height) >= 1);
+    });
+
+    it('should throw an error if all APIs fail', async () => {
+        await expect(getCurrentBlockHeight(BAD_CONFIG)).rejects.toThrow();
+    });
+});
+
+describe('getBlockByHeight', () => {
+    it('it should fetch latest data from latest block', async () => {
+        const height = await getCurrentBlockHeight(GOOD_CONFIG);
+        if (!height) {
+            assert.fail('Failed to fetch block height');
+        }
+
+        assert(parseInt(height) >= 1);
+        const response = await getBlockByHeight(GOOD_CONFIG, parseInt(height));
         assert.isOk(response, 'response was not okay');
     });
 
     it('should throw an error if all APIs fail', async () => {
-        await expect(getBlockByHeight(['https://bad.api'], -1)).rejects.toThrow();
+        await expect(getBlockByHeight(BAD_CONFIG, -1)).rejects.toThrow();
     });
 });
