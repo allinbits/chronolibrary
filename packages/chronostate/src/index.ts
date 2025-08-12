@@ -12,7 +12,7 @@ export class ChronoState {
     config: Config;
     callbacks: Array<{ id: number; cb: (action: Action) => void }> = [];
     callbacksOffBlock: Array<{ id: number; cb: (block: string) => void }> = [];
-    incremental = 1;
+    incremental = 0;
     batchSize = 10;
     startBlock = '';
     maxBlock: number = -1;
@@ -44,9 +44,11 @@ export class ChronoState {
     }
 
     onAction(callback: (action: Action) => void) {
+        const incrementalValue = this.incremental;
+        this.callbacks.push({ id: incrementalValue, cb: callback });
         this.incremental++;
-        this.callbacks.push({ id: this.incremental, cb: callback });
-        return this.incremental;
+
+        return incrementalValue;
     }
 
     offAction(id: number) {
@@ -59,9 +61,11 @@ export class ChronoState {
     }
 
     onLastBlock(callback: (block: string) => void) {
+        const incrementalValue = this.incremental;
+        this.callbacksOffBlock.push({ id: incrementalValue, cb: callback });
+
         this.incremental++;
-        this.callbacksOffBlock.push({ id: this.incremental, cb: callback });
-        return this.incremental;
+        return incrementalValue;
     }
 
     offLastBlock(id: number) {
