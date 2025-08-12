@@ -24,7 +24,7 @@ describe('getCurrentBlockHeight', () => {
     it('should throw an error if all APIs fail', async () => {
         await expect(getCurrentBlockHeight(BAD_CONFIG)).rejects.toThrow();
     });
-});
+}, { timeout: 20_000 });
 
 describe('getBlockByHeight', () => {
     it('it should fetch latest data from latest block', async () => {
@@ -41,4 +41,4 @@ describe('getBlockByHeight', () => {
     it('should throw an error if all APIs fail', async () => {
         await expect(getBlockByHeight(BAD_CONFIG, -1)).rejects.toThrow();
     });
-});
+}, { timeout: 20_000 });
