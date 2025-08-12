@@ -13,11 +13,11 @@ test('test callbacks', async () => {
     let didCallAction = false;
     let didCallLastBlock = false;
 
-    state.onAction((_action) => {
+    const action1 = state.onAction((_action) => {
         didCallAction = true;
     });
 
-    state.onLastBlock((_lastBlock) => {
+    const action2 = state.onLastBlock((_lastBlock) => {
         didCallLastBlock = true;
     });
 
@@ -26,6 +26,12 @@ test('test callbacks', async () => {
 
     assert(didCallAction, 'Did not emit callbacks');
     assert(didCallLastBlock, 'Did not emit last block callbacks');
+
+    assert.equal(action1, 0);
+    assert.equal(action2, 1);
+
+    state.offAction(action1);
+    state.offLastBlock(action2);
 });
 
 describe('chronostate', async () => {
