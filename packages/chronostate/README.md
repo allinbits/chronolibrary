@@ -10,14 +10,12 @@ Using the default cosmos banking module, a memo can be used to invoke action sta
 
 Action state can be targeted towards a specific public address which wants to handle the action state. 
 
-It is recommended to use URLSearchParams for `memos` as they are human readable and familiar. However, nothing is stopping you from using your own formatting system.
-
 The only requirement is that you have a prefix for your memos; which helps the event parser find information about events.
 
 **Example**
 
 ```js
-0xForum?a=CREATE_THREAD&t=Some Title&c=Some Content
+namespace.Function("arg1", "arg2", "arg3")
 ```
 
 ## How does this library work?
