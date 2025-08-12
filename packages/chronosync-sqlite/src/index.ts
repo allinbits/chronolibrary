@@ -9,8 +9,6 @@ const config = useConfig();
 const lastBlock = db.lastBlock.select.get(1) as { id: number; block_value: string };
 const state = new ChronoState({ ...config, START_BLOCK: lastBlock.block_value });
 
-let lastAction: Action | undefined;
-
 function handleAction(action: Action) {
     try {
         //hash, height, timestamp, memo, messages
@@ -26,8 +24,6 @@ function handleAction(action: Action) {
         console.error(err);
         console.log(`Skipped ${action.hash}, data already exists.`);
     }
-
-    lastAction = action;
 }
 
 function handleLastBlock(block: string) {
