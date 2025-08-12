@@ -26,8 +26,6 @@ function handleAction(action: Action) {
         console.error(err);
         console.log(`Skipped ${action.hash}, data already exists.`);
     }
-
-    lastAction = action;
 }
 
 function handleLastBlock(block: string) {
