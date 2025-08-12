@@ -3,6 +3,7 @@ import { BlockResponse } from '../types/block';
 import { TransactionResponse } from '../types/transaction';
 
 const MAX_FETCH_RETRIES = 3;
+const TIME_BETWEEN_RETRIES = 2000;
 
 async function handleFetchRequest<T>(apiURLs: string[], path: string, retries = 0) {
     if (retries >= MAX_FETCH_RETRIES) {
@@ -24,6 +25,7 @@ async function handleFetchRequest<T>(apiURLs: string[], path: string, retries = 
     }
 
     retries += 1;
+    await new Promise((resolve: Function) => setTimeout(resolve, TIME_BETWEEN_RETRIES * retries));
     return handleFetchRequest(apiURLs, path, retries + 1);
 }
 
