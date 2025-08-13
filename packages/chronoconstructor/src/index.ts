@@ -1,7 +1,7 @@
 import { type Action } from '@atomone/chronostate';
 
 export class ChronoConstructor<T = {}> {
-    private mappings: { [key: string]: (dataSet: T, action: Action) => Promise<void> | void } = {};
+    private mappings: { [key: string]: (dataSet: T, action: Action) => Promise<void> | void } = Object.create(null);
     private lastBlock: number = -1;
     private namespace: string;
 
