@@ -11,7 +11,7 @@ ChronoState is a library designed to reconstruct past states and validate presen
 
 - Event Sourcing: Event sourcing is a pattern where state is reconstructed by replaying a series of events. Instead of storing the current state of the application, you store the events that have occurred and reconstruct the state as needed. ChronoState uses this pattern to enable state reconstruction based on blockchain events.
 
-- Memos: In the context of ChronoState, memos are used to invoke action states within the blockchain. A memo acts as a container for the information that an event contains, specifying which action should be performed and on what address.
+- Memos: In the context of ChronoState, memos are used to invoke action states within the blockchain. A memo acts as a container for the information that an event contains, specifying which action should be performed and on what address. Additionally, memos from the Authz module are handled for the 1st nested level. Meaning, if a bank message can be found in the messages array it will count as a valid memo.
 
 - Action State: Action states are events that are triggered by the blockchain. These actions can be directed towards specific addresses that are responsible for handling them.
 

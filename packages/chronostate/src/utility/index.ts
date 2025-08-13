@@ -118,6 +118,21 @@ export function extractMemoContent<K extends keyof MemoExtractor.TypeMap>(memo: 
     return [] as MemoExtractor.TypeMap[K];
 }
 
+/**
+ * Gets valid memo data based on the message type.
+ * 
+ * Authz exec is handled for only the first nested level of messages.
+ * 
+ * Meaning, if a bank message can be found in the messages array it will count as a valid memo.
+ *
+ * @export
+ * @param {{
+ *     config: Config;
+ *     prefixes: string[];
+ *     txData: TransactionResponse;
+ * }} data
+ * @return {*} 
+ */
 export function findValidMemo(data: {
     config: Config;
     prefixes: string[];
