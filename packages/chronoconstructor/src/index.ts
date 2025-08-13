@@ -10,7 +10,7 @@ export class ChronoConstructor<T = {}> {
      *
      * ie. `0xForum`, `MyNameSpace`, etc.
      *
-     * @param {string} memoPrefix
+     * @param {string} namespace
      * @memberof ChronoConstructor
      */
     constructor(namespace: string) {
