@@ -1,4 +1,32 @@
 ```
+2.3.0
+- Addressed the lack of network error handling to fix API rotation issues
+- Implemented a fix for repeatedly processed blocks, which prevented incorrect state updates
+- Patched the leaked database connections to prevent resource exhaustion
+- Resolved incompatible Action interfaces that caused integration failures
+- Corrected the inconsistent inclusion and exclusion of empty arguments in extractMemoContent to avoid confusion
+- Fixed the prototype pollution vulnerability, which previously allowed crafted memos to bypass validation
+- Repaired the infinite retry loop caused by failed batch fetching
+- Fixed a malicious transaction memo issue that was causing the indexer to halt
+- Added a check on action ordering to prevent state corruption
+- Updated the cloning method to be more robust, preventing data corruption
+- Corrected incorrect test expected values to ensure validation against the right parameters
+- Fixed the incorrect usage of expect in vitest, ensuring tests now fail properly
+- Handled the unhandled exception in the base64ToArrayBuffer function to prevent application crashes
+- Implemented a check on the returned value of findIndex to prevent incorrect callback removal
+- Clarified the message filter logic to prevent unexpected transaction inclusion
+- Handled JSON stringify operations to prevent process crashes
+- Added verification on the namespace to prevent state corruption
+- Removed hardcoded API endpoint assumptions
+- Improved generic error messages to better indicate the root cause
+- Updated the function description to address inconsistencies and avoid confusion
+- Standardized inconsistent parameter types across API functions
+- Corrected inaccurate documentation that could mislead developers
+- Adjusted the incremental ID to start at one, for standard indexing
+- Expanded support for nested authz MsgExec transactions
+- Removed the unused lastAction variable to reduce confusion for application developers
+- Updated outdated dependency versions to resolve security vulnerabilities 
+
 2.2.1
 - Fix primitive for string, reduce complexity
 
