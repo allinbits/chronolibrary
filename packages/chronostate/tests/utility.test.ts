@@ -1,4 +1,4 @@
-import { describe, it, expect } from 'vitest';
+import { describe, it, expect, assert } from 'vitest';
 import { base64ToArrayBuffer, toHex, sha256, decodeUnicode, findValidMemo } from '../src/utility/index';
 import { GOOD_CONFIG, txResponse } from './data';
 
@@ -40,13 +40,18 @@ describe('decodeUnicode', () => {
 describe('findValidMemo', () => {
     it('should find a valid memo', () => {
         const memo = findValidMemo({ txData: txResponse, config: GOOD_CONFIG, prefixes: [] });
-        expect(memo);
+        expect(memo).toBeTruthy();
+
+        if (!memo) {
+            assert.fail(`Failed to extract memo`);
+        }
 
         const idx = memo?.messages.findIndex(x => x['@type'] === '/cosmos.bank.v1beta1.MsgSend');
-        expect(typeof idx === 'number' && idx >= 0, 'expected to find at least one valid message')
-        expect(memo && typeof idx === 'number' && memo.messages[idx].from_address == 'atone1g775g5u284q96zq8d0q948tj50l3luf7cwu250')
-        expect(memo && typeof idx === 'number' && memo.messages[idx].to_address == 'atone1h36dsx4pflgjmesct389faxpqtxczj3lqjmu9s')
-        expect(memo?.memo == '');
+        expect(typeof idx).toBe('number');
+        expect(idx).toBeGreaterThanOrEqual(0);
+        expect(memo.messages[idx].from_address).toBe('atone1g775g5u284q96zq8d0q948tj50l3luf7cwu250')
+        expect(memo.messages[idx].to_address).toBe('atone1h36dsx4pflgjmesct389faxpqtxczj3lqjmu9s')
+        expect(memo.memo).toBe('')
     });
 
     it('should find a valid memo based on from address', () => {
@@ -56,7 +61,8 @@ describe('findValidMemo', () => {
                 SENDER: 'atone1g775g5u284q96zq8d0q948tj50l3luf7cwu250'
             }
         });
-        expect(memo);
+
+        expect(memo).toBeTruthy();
     })
 
     it('should find a valid memo based on to address', () => {
@@ -65,6 +71,7 @@ describe('findValidMemo', () => {
                 RECEIVER: 'atone1h36dsx4pflgjmesct389faxpqtxczj3lqjmu9s',
             }
         });
-        expect(memo);
+        
+        expect(memo).toBeTruthy();
     })
 })
