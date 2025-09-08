@@ -161,6 +161,14 @@ export function findValidMemo(data: {
     const isExec = data.txData.tx.body.messages[0]['@type'] === data.config.COSMOS_EXEC_MSG_TYPE;
     const messages: Message[] = isExec ?  data.txData.tx.body.messages[0].msgs : data.txData.tx.body.messages;
 
+    // Return normal unmatched message because no sender or receiver specified
+    if (!data.config.SENDER && !data.config.RECEIVER) {
+        return {
+            memo: decodeUnicode(data.txData.tx.body.memo),
+            messages: messages,
+        };
+    }
+
     const isMatching = (option: 'from_address' | 'to_address', address: string) => {
         const result = messages.find(x => {
             if (x['@type'] !== data.config.COSMOS_BANK_SEND_MSG_TYPE) {
@@ -173,26 +181,28 @@ export function findValidMemo(data: {
         return !!result;
     }
 
-    if (data.config.SENDER && isMatching('from_address', data.config.SENDER)) {
-        return {
-            memo: decodeUnicode(data.txData.tx.body.memo),
-            messages: messages,
-        }
-    }
+    let isSenderMatching = isMatching('from_address', data.config.SENDER ?? '');
+    let isReceiverMatching = isMatching('to_address', data.config.RECEIVER ?? '');;
 
-    if (data.config.RECEIVER && isMatching('to_address', data.config.RECEIVER)) {
-        return {
-            memo: decodeUnicode(data.txData.tx.body.memo),
-            messages: messages,
+    // Both send and receiver match specified config
+    if (data.config.RECEIVER && data.config.SENDER) {
+        if (isSenderMatching && isReceiverMatching) {
+            return {
+                memo: decodeUnicode(data.txData.tx.body.memo),
+                messages: messages,
+            };
         }
-    }
 
-    if (data.config.RECEIVER || data.config.SENDER) {
         return null;
     }
 
-    return {
-        memo: decodeUnicode(data.txData.tx.body.memo),
-        messages: messages,
-    };
+    // Handle is receiver is matching, or sender is matching
+    if ((data.config.RECEIVER && isReceiverMatching) || (data.config.SENDER && isSenderMatching) ) {
+        return {
+            memo: decodeUnicode(data.txData.tx.body.memo),
+            messages: messages,
+        };
+    }
+    
+    return null;
 }
