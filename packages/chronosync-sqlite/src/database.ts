@@ -37,7 +37,7 @@ export function useDatabase() {
             `),
         },
         lastBlock: {
-            select: db.prepare(`SELECT * FROM last_block WHERE id = ?`),
+            select: db.prepare(`SELECT * FROM last_block WHERE id = 1`),
             update: db.prepare(`UPDATE last_block SET block_value = ? WHERE id = 1;`),
         },
     };

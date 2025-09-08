@@ -6,7 +6,7 @@ import { useConfig } from './config';
 
 const db = useDatabase();
 const config = useConfig();
-const lastBlock = db.lastBlock.select.get(1) as { id: number; block_value: string };
+const lastBlock = db.lastBlock.select.get() as { id: number; block_value: string };
 const state = new ChronoState({ ...config, START_BLOCK: lastBlock.block_value });
 
 function handleAction(action: Action) {
