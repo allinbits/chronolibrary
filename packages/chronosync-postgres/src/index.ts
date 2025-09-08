@@ -1,8 +1,8 @@
-import { ChronoState } from '@atomone/chronostate';
 import { Action } from '@atomone/chronostate/dist/types';
 
 import { initDatabase, useDatabase } from './database';
 import { useConfig } from './config';
+import { ChronoState } from '@atomone/chronostate';
 
 const config = useConfig();
 const db = useDatabase();

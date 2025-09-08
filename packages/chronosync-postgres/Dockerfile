@@ -1,4 +1,4 @@
-FROM node:23-slim
+FROM node:24-slim
 
 WORKDIR /app
 
@@ -10,5 +10,6 @@ COPY package.json ./package.json
 COPY tsconfig.json ./tsconfig.json
 
 RUN pnpm install --no-cache
+RUN pnpm build
 
-CMD ["pnpm", "start"]
+CMD ["pnpm", "./dist/index.js"]

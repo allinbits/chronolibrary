@@ -10,15 +10,17 @@ const pool = new Pool({
 });
 
 export async function initDatabase() {
+    const client = await pool.connect();
+
     // Create last_block table
-    await pool.query(`
+    await client.query(`
         CREATE TABLE IF NOT EXISTS last_block (
             id INT PRIMARY KEY,
             block TEXT NOT NULL
         );`);
 
     // Create actions table
-    await pool.query(`
+    await client.query(`
         CREATE TABLE IF NOT EXISTS actions (
             hash TEXT PRIMARY KEY,
             height TEXT NOT NULL,
@@ -28,12 +30,14 @@ export async function initDatabase() {
         );`);
 
     // Insert default row for last_block if missing
-    await pool.query(
+    await client.query(
         `INSERT INTO last_block (id, block)
              VALUES (0, $1)
              ON CONFLICT (id) DO NOTHING`,
         [config.START_BLOCK]
     );
+
+    client.release();
 }
 
 export function useDatabase() {
