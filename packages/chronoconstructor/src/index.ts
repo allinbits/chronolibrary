@@ -145,12 +145,19 @@ export function extractNamespaceFunction(memo: string) {
 }
 
 /**
- * Input should be the full memo. ie. `example.send("blah","blah","blah")`
- * commandPrefix should be the full command name. ie `example.Send`
+ * `memo` should be the full input
  * 
- * Arguments are extracted as long as they are surrounded by `double quotes`.
+ * Example 1: `example.send("blah","blah","blah")`
+ * Example 2: `example.send(blah, blah, blah)`
  * 
- * Example: `"blah", "blah", "blah"`
+ * All inputs are parsed as strings
+ * 
+ * `commandPrefix` should be the namespace and command.
+ * 
+ * Example 1: `example.send`
+ * Example 2: `example.doSomething`
+ * 
+ * Arguments are extracted as long as they are command separated.
  *
  * @export
  * @param {string} memo
@@ -164,30 +171,33 @@ export function extractMemoContent(memo: string, commandPrefix: string) {
     // Check if the memo starts with the command and ends with ')'
     if (memo.startsWith(start) && memo.endsWith(end)) {
         const content = memo.slice(start.length, -1);
-
-        let inString = false;
-        let currentItem = '';
         const result = [];
+        let currentItem = '';
+        let inString = false;
+        let escaped = false;
 
         for (let i = 0; i < content.length; i++) {
             const char = content[i];
-
-            if (char === '"' && (i === 0 || content[i - 1] !== '\\')) {
+            if (char === '\\') {
+                escaped = true;
+                currentItem += char;
+            } else if (char === '"' && !escaped) {
                 inString = !inString;
-            }
-
-            if (char === ',' && !inString) {
-                result.push(currentItem);
+                currentItem += char;
+            } else if (char === ',' && !inString) {
+                result.push(currentItem.trim());
                 currentItem = '';
             } else {
                 currentItem += char;
             }
+            if (escaped && char !== '\\') {
+                escaped = false;
+            }
         }
 
-        result.push(currentItem);
+        result.push(currentItem.trim());
 
-        return result.map((item) => {
-            item = item.trim();
+        return result.map(item => {
             if (item.startsWith('"') && item.endsWith('"')) {
                 return item.slice(1, -1);
             }
