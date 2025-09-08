@@ -35,6 +35,12 @@ describe('decodeUnicode', () => {
         const input = 'Hello, \\u0024';
         expect(decodeUnicode(input)).toBe('Hello, $');
     });
+
+    it('should decode a string with a mix of all three unicode formats', () => {
+        const input = 'Hello \\u0048\\u0065\\u006C\\u006C\\u006F \\U00000021 from \\x4A\\x61\\x76\\x61\\x53\\x63\\x72\\x69\\x70\\x74.';
+        const expected = 'Hello Hello ! from JavaScript.';
+        expect(decodeUnicode(input)).toBe(expected);
+    });
 });
 
 describe('findValidMemo', () => {
@@ -71,7 +77,7 @@ describe('findValidMemo', () => {
                 RECEIVER: 'atone1h36dsx4pflgjmesct389faxpqtxczj3lqjmu9s',
             }
         });
-        
+
         expect(memo).toBeTruthy();
     })
 })

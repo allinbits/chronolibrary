@@ -61,7 +61,10 @@ export function sha256(uint8Array: Uint8Array) {
 }
 
 export function decodeUnicode(str: string) {
-    return str.replace(/\\u([\dA-Fa-f]{4})/g, (_, code) => String.fromCharCode(parseInt(code, 16)));
+    return str.replace(/\\(u[0-9a-fA-F]{4}|U[0-9a-fA-F]{8}|x[0-9a-fA-F]{2})/g, (match) => {
+        const code = match.slice(2);
+        return String.fromCodePoint(parseInt(code, 16));
+    });
 }
 
 /**
