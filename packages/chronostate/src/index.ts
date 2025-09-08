@@ -92,7 +92,7 @@ export class ChronoState {
             // If no endblock, use max block and keep processing
             if (!endBlock) {
                 await this.updateMaxBlock();
-                if (parseInt(this.startBlock) >= this.maxBlock) {
+                if (parseInt(this.startBlock) > this.maxBlock) {
                     if (this.config.LOG) {
                         console.log(`Max block reached, waiting for new blocks`);
                     }
@@ -106,7 +106,7 @@ export class ChronoState {
             } else {
                 this.maxBlock = parseInt(endBlock);
 
-                if (parseInt(this.startBlock) >= this.maxBlock) {
+                if (parseInt(this.startBlock) > this.maxBlock) {
                     if (this.config.LOG) {
                         console.log(`Max block reached, breaking out`);
                     }
