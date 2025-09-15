@@ -26,7 +26,7 @@ async function handleFetchRequest<T>(apiURLs: string[], path: string, retries = 
 
     retries += 1;
     await new Promise((resolve: Function) => setTimeout(resolve, TIME_BETWEEN_RETRIES * retries));
-    return handleFetchRequest(apiURLs, path, retries + 1);
+    return handleFetchRequest(apiURLs, path, retries);
 }
 
 export async function getCurrentBlockHeight(config: Config) {
