@@ -7,7 +7,14 @@ import { useConfig } from './config';
 const db = useDatabase();
 const config = useConfig();
 const lastBlock = db.lastBlock.select.get() as { id: number; block_value: string };
-const state = new ChronoState({ ...config, START_BLOCK: lastBlock.block_value });
+
+let state: ChronoState;
+
+if (!lastBlock) {
+    state = new ChronoState({ ...config }); 
+} else {
+    state = new ChronoState({ ...config, START_BLOCK: lastBlock.block_value });
+}
 
 function handleAction(action: Action) {
     let messages: string | undefined;

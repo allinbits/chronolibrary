@@ -61,7 +61,7 @@ export function useDatabase() {
         lastBlock: {
             select: async () => {
                 const result = await pool.query('SELECT block FROM last_block WHERE id = 0');
-                return result.rows[0]?.block ?? config.START_BLOCK;
+                return result.rows[0]?.block ?? null;
             },
             update: async (newBlock: string) => {
                 await pool.query(`UPDATE last_block SET block = $1 WHERE id = 0`, [newBlock]);

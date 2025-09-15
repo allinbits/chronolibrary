@@ -41,7 +41,7 @@ export function useDatabase() {
             select: async () => {
                 const result = await lastBlock.findOne<{ block: string }>({ id: 0 });
                 if (!result) {
-                    return config.START_BLOCK;
+                    return null;
                 }
 
                 return result.block;

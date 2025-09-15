@@ -8,7 +8,7 @@ const config = useConfig();
 const db = useDatabase();
 
 let state: ChronoState;
-let lastBlock: string;
+let lastBlock: string | null;
 let lastAction: Action;
 
 async function handleAction(action: Action) {
@@ -40,7 +40,12 @@ export async function start() {
     await initDatabase();
 
     lastBlock = await db.lastBlock.select();
-    state = new ChronoState({ ...config, START_BLOCK: lastBlock });
+    if (!lastBlock) {
+        state = new ChronoState({ ...config  });
+    } else {
+        state = new ChronoState({ ...config, START_BLOCK: lastBlock });
+    }
+    
     state.onLastBlock(handleLastBlock);
     state.onAction(handleAction);
     state.start();
