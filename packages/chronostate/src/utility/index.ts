@@ -87,35 +87,40 @@ export function extractMemoContent<K extends keyof MemoExtractor.TypeMap>(memo: 
     // Check if the memo starts with the command and ends with ')'
     if (memo.startsWith(start) && memo.endsWith(end)) {
         const content = memo.slice(start.length, -1);
-
-        let inString = false;
-        let currentItem = '';
         const result = [];
+        let currentItem = '';
+        let inString = false;
+        let escaped = false;
 
         for (let i = 0; i < content.length; i++) {
             const char = content[i];
-
-            if (char === '"' && (i === 0 || content[i - 1] !== '\\')) {
+            if (char === '\\') {
+                escaped = true;
+                currentItem += char;
+            } else if (char === '"' && !escaped) {
                 inString = !inString;
-            }
-
-            if (char === ',' && !inString) {
-                result.push(currentItem);
+                currentItem += char;
+            } else if (char === ',' && !inString) {
+                result.push(currentItem.trim());
                 currentItem = '';
             } else {
                 currentItem += char;
+            }
+            if (escaped && char !== '\\') {
+                escaped = false;
             }
         }
 
         result.push(currentItem);
 
-        return result.map((item) => {
-            item = item.trim();
+        const mappedResults = result.map(item => {
             if (item.startsWith('"') && item.endsWith('"')) {
                 return item.slice(1, -1);
             }
             return item;
-        }) as MemoExtractor.TypeMap[K];
+        });
+
+        return mappedResults.filter(x => x.length >= 1) as MemoExtractor.TypeMap[K];
     }
 
     return [] as MemoExtractor.TypeMap[K];

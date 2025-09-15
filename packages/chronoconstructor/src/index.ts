@@ -196,13 +196,14 @@ export function extractMemoContent(memo: string, commandPrefix: string) {
         }
 
         result.push(currentItem.trim());
-
-        return result.map(item => {
+        const mappedResults = result.map(item => {
             if (item.startsWith('"') && item.endsWith('"')) {
                 return item.slice(1, -1);
             }
             return item;
         });
+
+        return mappedResults.filter(x => x.length >= 1);
     }
 
     return [];
