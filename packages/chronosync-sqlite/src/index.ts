@@ -13,7 +13,7 @@ let state: ChronoState;
 if (!lastBlock) {
     state = new ChronoState({ ...config }); 
 } else {
-    state = new ChronoState({ ...config, START_BLOCK: lastBlock.block_value });
+    state = new ChronoState({ ...config, START_BLOCK: String(parseInt(lastBlock.block_value) + 1) });
 }
 
 function handleAction(action: Action) {

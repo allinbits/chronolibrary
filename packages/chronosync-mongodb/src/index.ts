@@ -41,7 +41,7 @@ export async function start() {
     if (!lastBlock) {
         state = new ChronoState({ ...config  });
     } else {
-        state = new ChronoState({ ...config, START_BLOCK: lastBlock });
+        state = new ChronoState({ ...config, START_BLOCK: String(parseInt(lastBlock) + 1) });
     }
 
     state.onLastBlock(handleLastBlock);
