@@ -68,12 +68,19 @@ export function decodeUnicode(str: string) {
 }
 
 /**
- * Input should be the full memo. ie. `example.send("blah","blah","blah")`
- * commandPrefix should be the full command name. ie `example.Send`
- *
- * Arguments are extracted as long as they are surrounded by `double quotes`.
+ * `memo` should be the full input
  * 
- * Example: `"blah", "blah", "blah"`
+ * Example 1: `example.send("blah","blah","blah")`
+ * Example 2: `example.send(blah, blah, blah)`
+ * 
+ * All inputs are parsed as strings
+ * 
+ * `commandPrefix` should be the namespace and command.
+ * 
+ * Example 1: `example.send`
+ * Example 2: `example.doSomething`
+ * 
+ * Arguments are extracted as long as they are comma separated.
  * 
  * @export
  * @param {string} memo
