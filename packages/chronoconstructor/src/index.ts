@@ -157,7 +157,7 @@ export function extractNamespaceFunction(memo: string) {
  * Example 1: `example.send`
  * Example 2: `example.doSomething`
  * 
- * Arguments are extracted as long as they are command separated.
+ * Arguments are extracted as long as they are comma separated.
  *
  * @export
  * @param {string} memo

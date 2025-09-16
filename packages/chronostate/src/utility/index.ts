@@ -111,8 +111,7 @@ export function extractMemoContent<K extends keyof MemoExtractor.TypeMap>(memo: 
             }
         }
 
-        result.push(currentItem);
-
+        result.push(currentItem.trim());
         const mappedResults = result.map(item => {
             if (item.startsWith('"') && item.endsWith('"')) {
                 return item.slice(1, -1);
